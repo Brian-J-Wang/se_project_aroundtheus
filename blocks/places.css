@@ -1,0 +1,48 @@
+.places {
+    margin: 51px 200px;
+    display: grid;
+    gap: 20px 17px;
+    color: #000;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.places__card {
+    width: 282px;
+    height: 361px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 10px;
+}
+
+.places__image {
+    width: 282px;
+    height: 282px;
+    overflow: hidden;
+}
+
+.places__desc {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 20px;
+}
+
+.places__name {
+    font-size: 24px;
+    line-height: 29px;
+    font-weight: 900;
+    letter-spacing: -1px;
+}
+
+.places__heart {
+    width: 21px;
+    height: 18px;
+    transition: opacity 0.25s ease-out;
+}
+
+.places__heart:hover {
+    opacity: 0.5;
+}

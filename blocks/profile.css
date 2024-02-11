@@ -1,0 +1,59 @@
+.profile {
+    height: 120px;
+    width: 880px;
+    margin: 40px 200px 0px;
+    display: flex;
+    flex-direction: row;
+}
+
+.profile__avatar {
+    height: 120px;
+    width: 120px;
+    background-color: white;
+    background-image: url("../images/jacques-cousteau.jpg");
+    background-position: center;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+}
+
+.profile__info {
+    width: 415px;
+    height: 77px;
+    margin: 22px 165px 22px 30px;
+}
+
+.profile__name {
+    margin: 0px 0px 16px 0px;
+    font-size: 42px;
+    line-height: 48px;
+    font-weight: 500;
+}
+
+.profile__edit {
+    width: 24px;
+    height: 24px;
+    transition: opacity 0.25s ease-out;
+}
+
+.profile__edit:hover {
+    opacity: 0.5;
+}
+
+.profile__desc {
+    margin: 0px 0px 0px 0px;
+    font-size: 18px;
+    line-height: 21px;
+    font-weight: 400;
+}
+
+.profile__add {
+    width: 150px;
+    height: 50px; 
+    margin: auto 0px;
+    transition: opacity 0.25s ease-out;
+}
+
+.profile__add:hover {
+    opacity: 0.5;
+}
