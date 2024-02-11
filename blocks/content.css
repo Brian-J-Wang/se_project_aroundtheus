@@ -1,5 +1,18 @@
 .content {
-    max-width: 1280px;
+    max-width: 880px;
     min-width: 320px;
     margin: auto;
+    padding: 0px 200px;
+}
+
+@media screen and (max-width: 1280px) {
+    .content {
+        padding: 0px max(calc((100vw - 880px) / 2), 72px);
+    }
+}
+
+@media screen and (max-width: 725px) {
+    .content {
+        padding: 0px max(calc(100vw - 581px) / 2, 0px);
+    }
 }

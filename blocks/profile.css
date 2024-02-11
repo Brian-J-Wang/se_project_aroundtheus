@@ -1,14 +1,14 @@
 .profile {
-    height: 120px;
-    width: 880px;
-    margin: 40px 200px 0px;
+    max-width: 880px;
+    margin: 40px 0px 0px;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .profile__avatar {
-    height: 120px;
-    width: 120px;
+    min-height: 120px;
+    min-width: 120px;
     background-color: white;
     background-image: url("../images/jacques-cousteau.jpg");
     background-position: center;
@@ -18,9 +18,9 @@
 }
 
 .profile__info {
-    width: 415px;
     height: 77px;
-    margin: 22px 165px 22px 30px;
+    min-width: 320px;
+    margin: 22px auto 22px 30px;
 }
 
 .profile__name {
@@ -28,6 +28,7 @@
     font-size: 42px;
     line-height: 48px;
     font-weight: 500;
+    text-wrap: nowrap;
 }
 
 .profile__edit {
@@ -48,6 +49,9 @@
 }
 
 .profile__add {
+    background-image: url("../images/addbutton.svg");
+    background-repeat: no-repeat;
+    background-position: center;
     width: 150px;
     height: 50px; 
     margin: auto 0px;
@@ -56,4 +60,61 @@
 
 .profile__add:hover {
     opacity: 0.5;
+}
+
+@media screen and (max-width: 880px) {
+    .profile__avatar {
+        margin-left: auto;
+    }
+    .profile__info {
+        margin-right: auto;
+    }
+    .profile__add {
+        background-image: url("../images/addbutton_long.svg");
+        margin: 15px auto 0px;
+        min-width: 282px;
+    }
+}
+
+@media screen and  (max-width: 725px) {
+    .profile {
+        display: flex;
+        flex-direction: column;
+    }
+    .profile__avatar {
+        margin: 0px auto;
+    }
+    .profile__info {
+        margin: 22px auto 0px;
+    }
+    .profile__name {
+        text-align: center;
+    }
+    .profile__desc {
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .profile__info {
+        height: 50px;
+        margin-top: 30px;
+    }
+    .profile__name {
+        font-size: 22px;
+        line-height: 26.63px;
+    }
+    .profile__desc {
+        font-size: 14px;
+        line-height: 17px;
+        margin-top: 14px;
+    }
+    .profile__edit {
+        width: 16px;
+        height: 16px;
+        margin: auto 0px 0px;
+    }
+    .profile__add {
+        margin: 36px auto 0px;
+    }
 }

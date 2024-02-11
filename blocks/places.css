@@ -1,5 +1,5 @@
 .places {
-    margin: 51px 200px;
+    margin: 51px 0px;
     display: grid;
     gap: 20px 17px;
     color: #000;
@@ -45,4 +45,20 @@
 
 .places__heart:hover {
     opacity: 0.5;
+}
+
+@media screen and (max-width: 1024px) {
+    .places {
+        max-width: 581px;
+        grid-template-columns: repeat(2, 282px);
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media screen and (max-width: 725px ) {
+    .places {
+        grid-template-columns: 282px;
+        max-width: 282px;
+    }   
 }
