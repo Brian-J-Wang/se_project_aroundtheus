@@ -93,6 +93,9 @@
     .profile__desc {
         text-align: center;
     }
+    .profile__add {
+        margin: 36px auto 0px;
+    }
 }
 
 @media screen and (max-width: 500px) {
@@ -113,8 +116,5 @@
         width: 16px;
         height: 16px;
         margin: auto 0px 0px;
-    }
-    .profile__add {
-        margin: 36px auto 0px;
     }
 }
