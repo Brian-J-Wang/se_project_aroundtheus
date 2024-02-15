@@ -8,7 +8,6 @@
 
 .places__card {
     width: 282px;
-    height: 361px;
     background-color: #fff;
     display: flex;
     flex-direction: column;
@@ -20,6 +19,7 @@
     width: 282px;
     height: 282px;
     overflow: hidden;
+    border-radius: 10px 10px 0px 0px;
 }
 
 .places__desc {
@@ -35,6 +35,10 @@
     line-height: 29px;
     font-weight: 900;
     letter-spacing: -1px;
+    margin: 25px 0px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .places__heart {
@@ -60,5 +64,6 @@
     .places {
         grid-template-columns: 282px;
         max-width: 282px;
+        margin-top: 36px;
     }   
 }
