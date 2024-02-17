@@ -44,6 +44,9 @@
 .places__heart {
     width: 21px;
     height: 18px;
+    border: 0px;
+    background-color: rgba(0,0,0,0);
+    background-image: url(../images/heart.svg);
     transition: opacity 0.25s ease-out;
 }
 
