@@ -7,8 +7,8 @@
 }
 
 .profile__avatar {
-    min-height: 120px;
-    min-width: 120px;
+    height: 120px;
+    width: 120px;
     background-color: white;
     background-image: url("../images/jacques-cousteau.jpg");
     background-position: center;
@@ -20,15 +20,27 @@
 .profile__info {
     margin: 22px auto 22px 30px;
     min-width: 415px;
+    max-width: calc(100% - 120px - 150px - 60px);
+    flex-grow:2;
     display: flex;
-    flex-basis: 50%;
+    flex-direction: column;
     flex-wrap: wrap;
     align-items: center;
 }
 
+.profile__name-container {
+    max-width: 100%;
+    align-self: flex-start;
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    justify-content: space-between;
+    align-content: start;
+}
+
 .profile__name {
-    margin: 0px 0px 7px 0px;
-    margin-right: 16px;
+    margin: 0px;
+    width: calc(100% - 34px);
     font-size: 42px;
     line-height: 48px;
     font-weight: 500;
@@ -42,6 +54,8 @@
     height: 24px;
     transition: opacity 0.25s ease-out;
     border: 0px;
+    padding: 0px;
+    margin: auto 5px;
     background-color: rgba(0, 0, 0, 0);
     background-image: url("../images/editbutton.svg");
 }
@@ -51,7 +65,9 @@
 }
 
 .profile__desc {
-    margin: 0px 0px 0px 0px;
+    width: 100%;
+    margin: 18px 0px 0px 0px;
+    align-self: flex-start;
     font-size: 18px;
     line-height: 21px;
     font-weight: 400;
@@ -108,7 +124,7 @@
     
     .profile__name {
         margin-left: auto;
-        text-align: center;
+        align-self: center;
     }
 
     .profile__edit {
@@ -116,8 +132,7 @@
     }
 
     .profile__desc {
-        flex-basis: 100%;
-        text-align:center;
+        align-self: center;
     }
 
     .profile__add {
@@ -135,7 +150,6 @@
     .profile__name {
         font-size: 22px;
         line-height: 26px;
-        margin: 0px 0px 0px 43px;
         align-self: center;
     }
     
@@ -143,7 +157,7 @@
         width: 18px;
         height: 18px;
         background-size: 18px 18px;
-        margin-left: 10px;
+        margin: auto auto auto 10px;
     }
 
     .profile__desc {
