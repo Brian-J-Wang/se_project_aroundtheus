@@ -58,6 +58,7 @@
     margin: auto 5px;
     background-color: rgba(0, 0, 0, 0);
     background-image: url("../images/editbutton.svg");
+    cursor: pointer;
 }
 
 .profile__edit:hover {
@@ -86,6 +87,7 @@
     height: 50px; 
     margin: auto 0px;
     transition: opacity 0.25s ease-out;
+    cursor: pointer;
 }
 
 .profile__add:hover {

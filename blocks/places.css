@@ -48,6 +48,7 @@
     background-color: rgba(0,0,0,0);
     background-image: url(../images/heart.svg);
     transition: opacity 0.25s ease-out;
+    cursor: pointer;
 }
 
 .places__heart:hover {
