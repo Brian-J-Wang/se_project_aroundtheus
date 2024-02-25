@@ -27,15 +27,16 @@ const initialCards = [
 const places = document.querySelector(".places");
 const cardTemplate = document.querySelector("#card").content;
 for (let i = 0; i < initialCards.length; i++) {
-    places.append(CreateCard(initialCards[i]));
+    let cardInstance = createCard(initialCards[i])
+    places.append(cardInstance);
 }
 
 function createCard(cardInfo) {
-    let copy = cardTemplate.cloneNode(true);
+    const copy = cardTemplate.cloneNode(true);
     copy.querySelector('.places__image').src = cardInfo.link;
     copy.querySelector('.places__image').alt = cardInfo.name
     copy.querySelector('.places__name').textContent = cardInfo.name;
-    return template.cloneNode(true);
+    return copy.cloneNode(true);
 }
 
 
