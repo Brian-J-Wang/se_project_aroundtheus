@@ -24,19 +24,49 @@ let initialCards = [
         link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/yosemite.jpg",
     }
 ]
+const places = document.querySelector(".places");
+const cardTemplate = document.querySelector("#card").content;
+for (let i = 0; i < initialCards.length; i++) {
+    let cardCopy = cardTemplate.cloneNode(true);
+    cardCopy.querySelector('.places__image').src = initialCards[i].link;
+    cardCopy.querySelector('.places__name').textContent = initialCards[i].name;
 
-let editButton = document.querySelector(".profile__edit");
+    places.append(cardCopy);
+}
+
+
+const modal = document.querySelector('.modal');
+
+const InputName = modal.querySelector('.modal__input[name=name]');
+const profileName = document.querySelector('.profile__name'); 
+const InputDesc = modal.querySelector('.modal__input[name=desc]');
+const profileDesc = document.querySelector('.profile__desc');
+
+const editButton = document.querySelector('.profile__edit');
 editButton.addEventListener("click", onEditClicked);
-
 function onEditClicked() {
-    let modal = document.querySelector(".modal");
+    InputName.value = profileName.textContent;
+    InputDesc.value = profileDesc.textContent;
     modal.classList.add('modal__show');
 }
 
-let closeModalWindow = document.querySelector(".modal__close");
-closeModalWindow.addEventListener("click", onCloseClicked);
-
-function onCloseClicked() {
-    let modal = document.querySelector(".modal");
+const closeModalWindow = document.querySelector(".modal__close");
+closeModalWindow.addEventListener("click", onFormClosed);
+function onFormClosed() {
     modal.classList.remove("modal__show");
 }
+
+const modalForm = modal.querySelector('.modal__form');
+modalForm.addEventListener("submit", function(evt) {
+    evt.preventDefault();
+    onEditSaved();
+});
+
+function onEditSaved() {
+    profileName.textContent = InputName.value;
+    profileDesc.textContent = InputDesc.value;
+    onFormClosed();
+}
+
+
+

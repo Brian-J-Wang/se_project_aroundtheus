@@ -25,60 +25,7 @@
                     <button type="button" class="profile__add"></button>
                 </section>
                 <section class="places">
-                    <div class="places__card">
-                        <img src="./images/yosemite-valley.png" class="places__image" alt="place image">
-                        <div class="places__desc">
-                            <h2 class="places__name">
-                                Yosemite Valley
-                            </h2>
-                            <button type="button" class="places__heart"></button>
-                        </div>
-                    </div>
-                    <div class="places__card">
-                        <img src="./images/lake-louise.png" class="places__image" alt="place image">
-                        <div class="places__desc">
-                            <h2 class="places__name">
-                                Lake Louise
-                            </h2>
-                            <button type="button" class="places__heart"></button>
-                        </div>
-                    </div>
-                    <div class="places__card">
-                        <img src="./images/bald-mountains.png" class="places__image" alt="place image">
-                        <div class="places__desc">
-                            <h2 class="places__name">
-                                Bald Mountains
-                            </h2>
-                            <button type="button" class="places__heart"></button>
-                        </div>
-                    </div>
-                    <div class="places__card">
-                        <img src="./images/latemar.png" class="places__image" alt="place image">
-                        <div class="places__desc">
-                            <h2 class="places__name">
-                                Latemar
-                            </h2>
-                            <button type="button" class="places__heart"></button>
-                        </div>
-                    </div>
-                    <div class="places__card">
-                        <img src="./images/vanoise-national-park.png" class="places__image" alt="place image">
-                        <div class="places__desc">
-                            <h2 class="places__name">
-                                Vanoise National Park
-                            </h2>
-                            <button type="button" class="places__heart"></button>
-                        </div>
-                    </div>
-                    <div class="places__card">
-                        <img src="./images/lago-di-braies.png" class="places__image" alt="place image">
-                        <div class="places__desc">
-                            <h2 class="places__name">
-                                lago di braies
-                            </h2>
-                            <button type="button" class="places__heart"></button>
-                        </div>
-                    </div>
+                    
                 </section>
             </main>
             <footer class="footer">
@@ -93,11 +40,21 @@
                 <form class="modal__form">
                     <input class="modal__input" type="text" name="name" placeholder="Name">
                     <input class="modal__input" type="text" name="desc" placeholder="Description">
-                    <button class="modal__button">Save</button>
+                    <button class="modal__button" type="submit">Save</button>
                 </form>
             </div>
         </div>
 
+        <template id="card">
+            <div class="places__card">
+                <img class="places__image" alt="place image">
+                <div class="places__desc">
+                    <h2 class="places__name">
+                    </h2>
+                    <button type="button" class="places__heart"></button>
+                </div>
+            </div>
+        </template>
         <script src="./scripts/index.js"></script>
     </body>
 </html>
