@@ -27,15 +27,14 @@ const initialCards = [
 const places = document.querySelector(".places");
 const cardTemplate = document.querySelector("#card").content;
 for (let i = 0; i < initialCards.length; i++) {
-    let cardCopy = CreateCard(cardTemplate);
-    cardCopy.querySelector('.places__image').src = initialCards[i].link;
-    cardCopy.querySelector('.places__image').alt = "place image"
-    cardCopy.querySelector('.places__name').textContent = initialCards[i].name;
-
-    places.append(cardCopy);
+    places.append(CreateCard(initialCards[i]));
 }
 
-function CreateCard(template) {
+function createCard(cardInfo) {
+    let copy = cardTemplate.cloneNode(true);
+    copy.querySelector('.places__image').src = cardInfo.link;
+    copy.querySelector('.places__image').alt = cardInfo.name
+    copy.querySelector('.places__name').textContent = cardInfo.name;
     return template.cloneNode(true);
 }
 
