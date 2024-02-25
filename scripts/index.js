@@ -27,16 +27,17 @@ const initialCards = [
 const places = document.querySelector(".places");
 const cardTemplate = document.querySelector("#card").content;
 for (let i = 0; i < initialCards.length; i++) {
-    let cardInstance = createCard(initialCards[i])
+    const cardInstance = createCard(initialCards[i])
     places.append(cardInstance);
 }
 
 function createCard(cardInfo) {
-    const copy = cardTemplate.cloneNode(true);
-    copy.querySelector('.places__image').src = cardInfo.link;
-    copy.querySelector('.places__image').alt = cardInfo.name
-    copy.querySelector('.places__name').textContent = cardInfo.name;
-    return copy.cloneNode(true);
+    const cardCopy = cardTemplate.cloneNode(true);
+    const cardImage = cardCopy.querySelector('.places__image');
+    cardImage.src = cardInfo.link;
+    cardImage.alt = cardInfo.name;
+    cardCopy.querySelector('.places__name').textContent = cardInfo.name;
+    return cardCopy;
 }
 
 
@@ -61,12 +62,10 @@ function closeProfileModal() {
 }
 
 const modalForm = modal.querySelector('.modal__form');
-modalForm.addEventListener("submit", function(evt) {
-    evt.preventDefault();
-    saveProfileData();
-});
+modalForm.addEventListener("submit", saveProfileData);
 
-function saveProfileData() {
+function saveProfileData(evt) {
+    evt.preventDefault();
     profileName.textContent = inputName.value;
     profileDesc.textContent = inputDesc.value;
     closeProfileModal();
