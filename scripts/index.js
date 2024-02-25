@@ -24,3 +24,19 @@ let initialCards = [
         link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/yosemite.jpg",
     }
 ]
+
+let editButton = document.querySelector(".profile__edit");
+editButton.addEventListener("click", onEditClicked);
+
+function onEditClicked() {
+    let modal = document.querySelector(".modal");
+    modal.classList.remove('modal__hidden');
+}
+
+let closeModalWindow = document.querySelector(".modal__close");
+closeModalWindow.addEventListener("click", onCloseClicked);
+
+function onCloseClicked() {
+    let modal = document.querySelector(".modal");
+    modal.classList.add("modal__hidden");
+}

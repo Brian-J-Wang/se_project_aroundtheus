@@ -12,8 +12,8 @@
     font-family: "Inter", Arial, sans-serif;
 }
 
-.modal__opened {
-    display: flex;
+.modal__hidden {
+    display: none;
 }
 
 .modal__container {
