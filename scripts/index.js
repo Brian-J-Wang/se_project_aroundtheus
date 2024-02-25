@@ -30,7 +30,7 @@ editButton.addEventListener("click", onEditClicked);
 
 function onEditClicked() {
     let modal = document.querySelector(".modal");
-    modal.classList.remove('modal__hidden');
+    modal.classList.add('modal__show');
 }
 
 let closeModalWindow = document.querySelector(".modal__close");
@@ -38,5 +38,5 @@ closeModalWindow.addEventListener("click", onCloseClicked);
 
 function onCloseClicked() {
     let modal = document.querySelector(".modal");
-    modal.classList.add("modal__hidden");
+    modal.classList.remove("modal__show");
 }
