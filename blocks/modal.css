@@ -69,7 +69,7 @@
     padding: 0px 0px 7px;
 }
 
-.modal__input[name=desc] {
+.modal__input:last-of-type {
     margin-top: 30px;
 }
 

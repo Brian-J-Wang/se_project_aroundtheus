@@ -13,6 +13,28 @@
     flex-direction: column;
     justify-content: space-between;
     border-radius: 10px;
+    
+}
+
+.places__image-container {
+    position: relative;
+}
+
+.places__delete {
+    width: 18px;
+    height: 19.3px;
+    position: absolute;
+    top: 18px;
+    right: 15px;
+    border: 0px;
+    background-image: url("../images/Trash.svg");
+    background-color: rgba(0,0,0,0);
+    transition: opacity 0.15s ease-in;
+    cursor: pointer;
+}
+
+.places__delete:hover {
+    opacity: 60%;
 }
 
 .places__image {

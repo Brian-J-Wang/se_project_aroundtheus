@@ -32,7 +32,7 @@
             </footer>
         </div>
 
-        <div class="modal">
+        <div class="modal" id="editModal">
             <div class="modal__container">
                 <button class="modal__close"></button>
                 <h2 class="modal__heading">Edit Profile</h2>
@@ -44,9 +44,24 @@
             </div>
         </div>
 
+        <div class="modal" id="addModal">
+            <div class="modal__container">
+                <button class="modal__close"></button>
+                <h2 class="modal__heading">New Place</h2>
+                <form class="modal__form">
+                    <input class="modal__input" type="text" name="title" placeholder="Title">
+                    <input class="modal__input" type="text" name="link" placeholder="Image link">
+                    <button class="modal__button" type="submit">Create</button>
+                </form>
+            </div>
+        </div>
+
         <template id="card">
             <div class="places__card">
-                <img class="places__image" alt="place image">
+                <div class="places__image-container">
+                    <img class="places__image" alt="place image">
+                    <button type="button" class="places__delete" alt="delete image"></button>
+                </div>
                 <div class="places__desc">
                     <h2 class="places__name">
                     </h2>
