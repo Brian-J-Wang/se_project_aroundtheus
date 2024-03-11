@@ -37,7 +37,36 @@ function createCard(cardInfo) {
     cardImage.src = cardInfo.link;
     cardImage.alt = cardInfo.name;
     cardCopy.querySelector('.places__name').textContent = cardInfo.name;
+
+    const deleteButton = cardCopy.querySelector('.places__delete');
+    deleteButton.addEventListener("click", deleteCard);
+
+    const heartButton = cardCopy.querySelector('.places__heart');
+    heartButton.addEventListener("click", toggleHeartButton);
+
+    const image = cardCopy.querySelector('.places__image');
+    image.addEventListener("click", openImageModal);
     return cardCopy;
+}
+function deleteCard() {
+    this.closest('.places__card').remove();
+}
+function toggleHeartButton() {
+    console.log("clicked");   
+    this.classList.toggle('places__heart_enabled');
+}
+
+const pictureModal = document.querySelector('.modal[id=imageModal]');
+const modalImage = pictureModal.querySelector('.modal__image');
+const modalCaption = pictureModal.querySelector('.modal__caption');
+function openImageModal() {
+    const imageSrc = this.getAttribute('src');
+    modalImage.setAttribute('src', imageSrc);
+    
+    const imageCaption = this.getAttribute('alt');
+    modalCaption.innerText = imageCaption;
+
+    pictureModal.classList.add('modal_opened');
 }
 
 
@@ -96,17 +125,31 @@ modalWindowClose.forEach((modalWindow) => {
     modalWindow.addEventListener("click", closeModalWindow);
 });
 function closeModalWindow() {
-    this.closest('.modal').classList.remove('modal_opened');  
+    const modalContainer = this.closest('.modal');
+    modalContainer.classList.remove('modal_opened');
+    modalContainer.classList.add('modal_closed');  
+    
+    setTimeout(() => {
+        console.log("done");
+        modalContainer.classList.remove('modal_closed');
+    }, 200)
 }
-function closeThisModalWindow(window) {
-    window.closest('.modal').classList.remove('modal_opened');  
+function closeThisModalWindow(modal) {
+    const modalContainer = modal.closest('.modal');
+    modalContainer.classList.remove('modal_opened');  
+    modalContainer.classList.add('modal_closed');
+    
+    setTimeout(() => {
+        modalContainer.classList.remove('modal_closed');
+    }, 200)
 }
-const placesDelete = document.querySelectorAll(".places__delete");
+
+
+const placesDelete = document.querySelectorAll('.places__delete');
 placesDelete.forEach((button) => {
-    button.addEventListener("click", () => {
-        button.closest(".places__card").remove();
-    })
+    button.addEventListener("click", deleteCard)
 });
+
 
 
 

@@ -1,3 +1,21 @@
+@keyframes fadeIn {
+    from {
+        opacity: 0%;
+    }
+    to {
+        opacity: 100%;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 100%;
+    }
+    to {
+        opacity: 0%;
+    }
+}
+
 .modal {
     position: fixed;
     margin: auto;
@@ -5,15 +23,30 @@
     right: 0;
     bottom: 0;
     left: 0;
-    padding: 19px;
     color: black;
     background-color: rgba(0,0,0, 0.5);
     display: none;
     font-family: "Inter", Arial, sans-serif;
 }
 
+.modal_padding_narrow {
+    padding: 19px;
+}
+
+.modal_padding_wide {
+    padding: 40px;
+}
+
 .modal_opened {
     display: flex;
+    animation-name: fadeIn;
+    animation-duration: 0.2s;
+}
+
+.modal_closed {
+    display: flex;
+    animation-name: fadeOut;
+    animation-duration: 0.2s;
 }
 
 .modal__container {
@@ -89,6 +122,39 @@
     opacity: 0.8;
 }
 
+.modal__image-container {
+    margin: auto;
+    position: relative;
+}
+
+.modal__close-image {
+    top: -45px;
+    right: -45px;
+}
+
+.modal__image {
+    max-width: 100%;
+    max-height: 540px;
+}
+
+.modal__caption {
+    position: absolute;
+    margin: 0px;
+    color: white;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 14.57px;
+}
+
+@media screen and (max-width: 880px) {
+    .modal__close-image {
+        width: 30px;
+        height: 30px;
+        top: -35px;
+        right: -35px;
+    }
+}
+
 @media screen and (max-width: 600px) {
     .modal__container {
         padding: 25px 22px;
@@ -100,6 +166,13 @@
         top: -48px;
         right: 9px;
         background-color: #000;
+    }
+
+    .modal__close-image {
+        width: 30px;
+        height: 30px;
+        top: -35px;
+        right: -35px;
     }
 
     .modal__heading {
