@@ -26,6 +26,10 @@ const initialCards = [
 ]
 const places = document.querySelector(".places");
 const cardTemplate = document.querySelector("#card").content;
+
+const pictureModal = document.querySelector('.modal[id=imageModal]');
+const modalImage = pictureModal.querySelector('.modal__image');
+const modalCaption = pictureModal.querySelector('.modal__caption');
 initialCards.forEach((card) => {
     const cardInstance = createCard(card);
     places.append(cardInstance);
@@ -39,34 +43,30 @@ function createCard(cardInfo) {
     cardCopy.querySelector('.places__name').textContent = cardInfo.name;
 
     const deleteButton = cardCopy.querySelector('.places__delete');
-    deleteButton.addEventListener("click", deleteCard);
+    deleteButton.addEventListener("click", () => {
+        deleteButton.closest('.places__card').remove();
+    });
 
     const heartButton = cardCopy.querySelector('.places__heart');
-    heartButton.addEventListener("click", toggleHeartButton);
+    heartButton.addEventListener("click", () => {
+        heartButton.classList.toggle('places__heart_enabled');
+    });
 
-    const image = cardCopy.querySelector('.places__image');
-    image.addEventListener("click", openImageModal);
+    cardImage.addEventListener("click", () => {
+        openImageModal(cardImage);
+    });
     return cardCopy;
 }
-function deleteCard() {
-    this.closest('.places__card').remove();
-}
-function toggleHeartButton() {
-    console.log("clicked");   
-    this.classList.toggle('places__heart_enabled');
-}
 
-const pictureModal = document.querySelector('.modal[id=imageModal]');
-const modalImage = pictureModal.querySelector('.modal__image');
-const modalCaption = pictureModal.querySelector('.modal__caption');
-function openImageModal() {
-    const imageSrc = this.getAttribute('src');
+function openImageModal(cardImage) {
+    const imageSrc = cardImage.getAttribute('src');
+    const imageAlt = cardImage.getAttribute('alt');
     modalImage.setAttribute('src', imageSrc);
-    
-    const imageCaption = this.getAttribute('alt');
+    modalImage.setAttribute('alt', imageAlt);
+    const imageCaption = imageAlt;
     modalCaption.innerText = imageCaption;
 
-    pictureModal.classList.add('modal_opened');
+    openPopup(pictureModal);
 }
 
 
@@ -75,13 +75,13 @@ const inputName = editModal.querySelector('.modal__input[name=name]');
 const profileName = document.querySelector('.profile__name'); 
 const inputDesc = editModal.querySelector('.modal__input[name=desc]');
 const profileDesc = document.querySelector('.profile__desc');
-const editButton = document.querySelector('.profile__edit');
 
+const editButton = document.querySelector('.profile__edit');
 editButton.addEventListener("click", openProfileModal);
 function openProfileModal() {
     inputName.value = profileName.textContent;
     inputDesc.value = profileDesc.textContent;
-    editModal.classList.add('modal_opened');
+    openPopup(editModal);
 }
 
 const editModalForm = editModal.querySelector('.modal__form');
@@ -92,7 +92,7 @@ function saveProfileData(evt) {
     profileName.textContent = inputName.value;
     profileDesc.textContent = inputDesc.value;
 
-    closeThisModalWindow(editModal);
+    closePopup(editModal);
 }
 
 
@@ -101,7 +101,7 @@ const inputTitle = addModal.querySelector('.modal__input[name=title]');
 const inputLink = addModal.querySelector('.modal__input[name=link]');
 const addButton = document.querySelector(".profile__add");
 addButton.addEventListener("click", () => {
-    addModal.classList.add('modal_opened');
+    openPopup(addModal)
 });
 
 const addModalForm = addModal.querySelector('.modal__form');
@@ -113,43 +113,28 @@ function savePlaceData(evt) {
         name: inputTitle.value,
         link: inputLink.value
     }
-    cardInstance = createCard(cardInfo);
+    const cardInstance = createCard(cardInfo);
     places.prepend(cardInstance);
 
-    closeThisModalWindow(addModal);
+    closePopup(addModal);
+    inputTitle.value = "";
+    inputLink.value = "";
 }
 
-
-const modalWindowClose = document.querySelectorAll(".modal__close");
-modalWindowClose.forEach((modalWindow) => {
-    modalWindow.addEventListener("click", closeModalWindow);
-});
-function closeModalWindow() {
-    const modalContainer = this.closest('.modal');
-    modalContainer.classList.remove('modal_opened');
-    modalContainer.classList.add('modal_closed');  
-    
-    setTimeout(() => {
-        console.log("done");
-        modalContainer.classList.remove('modal_closed');
-    }, 200)
-}
-function closeThisModalWindow(modal) {
-    const modalContainer = modal.closest('.modal');
-    modalContainer.classList.remove('modal_opened');  
-    modalContainer.classList.add('modal_closed');
-    
-    setTimeout(() => {
-        modalContainer.classList.remove('modal_closed');
-    }, 200)
-}
-
-
-const placesDelete = document.querySelectorAll('.places__delete');
-placesDelete.forEach((button) => {
-    button.addEventListener("click", deleteCard)
+const closeModalButtons = document.querySelectorAll(".modal__close");
+closeModalButtons.forEach((closeButton) => {
+    const modal = closeButton.closest('.modal');
+    closeButton.addEventListener("click", () => {
+        closePopup(modal);
+    });
 });
 
 
+function openPopup(caller) {
+    const modal = caller.closest('.modal');
+    modal.classList.add('modal_opened');
+}
 
-
+function closePopup(modal) {
+    modal.classList.remove('modal_opened'); 
+}
