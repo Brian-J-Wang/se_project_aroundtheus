@@ -76,6 +76,7 @@ const profileName = document.querySelector('.profile__name');
 const inputDesc = editModal.querySelector('.modal__input[name=desc]');
 const profileDesc = document.querySelector('.profile__desc');
 
+
 const editButton = document.querySelector('.profile__edit');
 editButton.addEventListener("click", openProfileModal);
 function openProfileModal() {
