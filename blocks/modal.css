@@ -100,12 +100,30 @@
     padding: 0px 0px 7px;
 }
 
+.modal__input_type_error{
+    border-bottom: 1px solid rgba(255, 0, 0, 1);
+}
+
+.modal__error {
+    visibility: hidden;
+    color: rgba(255, 0, 0, 1);
+    font-size: 12px;
+    line-height: 14.52px;
+    height: 16px;
+    margin-top: 5px;
+}
+
+.modal__error_visible {
+    visibility: visible;
+    
+}
+
 .modal__input:last-of-type {
-    margin-top: 30px;
+    margin-top: 13px;
 }
 
 .modal__button {
-    margin-top: 48px;
+    margin-top: 32px;
     border: 0px;
     border-radius: 2px;
     height: 50.15px;
@@ -116,8 +134,15 @@
     transition: opacity 0.15s ease-in;
 }
 
-.modal__button:hover {
+.modal__button:hover:not(.modal__button_disabled) {
     opacity: 0.8;
+}
+
+.modal__button_disabled {
+    border: 1px solid #000;
+    color: #000;
+    background-color: rgba(246,246,246);
+    opacity: 20%;
 }
 
 .modal__image-container {
