@@ -148,7 +148,10 @@ document.addEventListener('keyup', closeModalByEscKey);
 
 const modalList = document.querySelectorAll('.modal');
 function closeModalByEscKey(evt) {
-    console.log(modalList);
+    if (evt.key != 'Escape') {
+        return;
+    }
+    
     modalList.forEach((modalElement) => {
         modalElement.classList.remove('modal_opened');
     });
