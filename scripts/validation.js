@@ -1,27 +1,3 @@
-//close by escape key
-document.addEventListener('keyup', closeModalByEscKey);
-
-const modalList = document.querySelectorAll('.modal');
-function closeModalByEscKey(evt) {
-    if (evt.key != 'Escape') {
-        return;
-    }
-    
-    modalList.forEach((modalElement) => {
-        modalElement.classList.remove('modal_opened');
-    });
-}
-
-//close by cicking overlay
-modalList.forEach((modalElement) => {
-    modalElement.addEventListener('click', closeModalByClickingOverlay);
-});
-
-function closeModalByClickingOverlay(evt) {
-    if (evt.target.classList.contains("modal")) {
-        closePopup(evt.currentTarget);
-    }
-}
 
 
 //validation Enabler
