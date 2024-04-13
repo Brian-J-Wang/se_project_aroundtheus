@@ -14,8 +14,7 @@ https://drive.google.com/file/d/1e5TPgKdNfP7FPD0Nz8wOucx0Dud-brXP/view?usp=drive
 
 ## validation.js
 
-EnableValidation(config) is a generalized method for adding validation to any form in this project.
-- config is an object with the format:
+EnableValidation(config) is a generalized method for adding validation to any form in this project. the Config is an object with the format:
 ```
 {
     formSelector: ".modal__form
@@ -28,10 +27,10 @@ EnableValidation(config) is a generalized method for adding validation to any fo
 ```
 
 {
-    formSelector: specifies the "<form>" element
-    inputSelector: the <input> elements within the form
-    submitButtonSelector: the <button>
-    inactiveButtonClass: "modal__button_disabled",
-    inputErrorClass: "modal__input_type_error",
-    errorClass: "modal__error_visible"
+    formSelector: specifies the form html element.
+    inputSelector: the input elements within the form.
+    submitButtonSelector: the button element
+    inactiveButtonClass: the class used to represent an inactive button.
+    inputErrorClass: a class used to change the appearance of the input elements when incorrect data was passed.
+    errorClass: a class used to change the appearance of the error span.
 }

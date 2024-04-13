@@ -1,3 +1,15 @@
+import { Card } from "../Components/Card.js";
+import { FormValidator } from "../Components/FormValidator.js";
+
+const config = {
+    formSelector: ".modal__form",
+    inputSelector: ".modal__input",
+    submitButtonSelector: ".modal__button",
+    inactiveButtonClass: "modal__button_disabled",
+    inputErrorClass: "modal__input_type_error",
+    errorClass: "modal__error_visible"
+};
+
 const initialCards = [
     {
         name: "New York",
@@ -24,40 +36,21 @@ const initialCards = [
         link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/yosemite.jpg",
     }
 ]
+
 const places = document.querySelector(".places");
-const cardTemplate = document.querySelector("#card").content;
+const cardSelector = document.querySelector('#card');
+initialCards.forEach((data) => {
+    createAndAddCard(data);
+})
+
+function createAndAddCard(data) {
+    const card = new Card(data, cardSelector, openImageModal)
+    places.append(card.createCard());
+}
 
 const pictureModal = document.querySelector('.modal[id=imageModal]');
 const modalImage = pictureModal.querySelector('.modal__image');
 const modalCaption = pictureModal.querySelector('.modal__caption');
-initialCards.forEach((card) => {
-    const cardInstance = createCard(card);
-    places.append(cardInstance);
-})
-
-function createCard(cardInfo) {
-    const cardCopy = cardTemplate.cloneNode(true);
-    const cardImage = cardCopy.querySelector('.places__image');
-    cardImage.src = cardInfo.link;
-    cardImage.alt = cardInfo.name;
-    cardCopy.querySelector('.places__name').textContent = cardInfo.name;
-
-    const deleteButton = cardCopy.querySelector('.places__delete');
-    deleteButton.addEventListener("click", () => {
-        deleteButton.closest('.places__card').remove();
-    });
-
-    const heartButton = cardCopy.querySelector('.places__heart');
-    heartButton.addEventListener("click", () => {
-        heartButton.classList.toggle('places__heart_enabled');
-    });
-
-    cardImage.addEventListener("click", () => {
-        openImageModal(cardImage);
-    });
-    return cardCopy;
-}
-
 function openImageModal(cardImage) {
     const imageSrc = cardImage.getAttribute('src');
     const imageAlt = cardImage.getAttribute('alt');
@@ -85,6 +78,8 @@ function openProfileModal() {
 }
 
 const editModalForm = editModal.querySelector('.modal__form');
+const editModalValidator = new FormValidator(editModalForm, config);
+editModalValidator.enableValidation();
 editModalForm.addEventListener("submit", saveProfileData);
 function saveProfileData(evt) {
     evt.preventDefault();
@@ -105,6 +100,8 @@ addButton.addEventListener("click", () => {
 });
 
 const addModalForm = addModal.querySelector('.modal__form');
+const addModalValidator = new FormValidator(addModalForm, config);
+addModalValidator.enableValidation();
 addModalForm.addEventListener("submit", savePlaceData);
 function savePlaceData(evt) {
     evt.preventDefault();
@@ -113,8 +110,8 @@ function savePlaceData(evt) {
         name: inputTitle.value,
         link: inputLink.value
     }
-    const cardInstance = createCard(cardInfo);
-    places.prepend(cardInstance);
+    
+    createAndAddCard(cardInfo);
 
     closePopup(addModal);
     evt.target.reset();
