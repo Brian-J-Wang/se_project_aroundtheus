@@ -36,7 +36,7 @@
             <div class="modal__container">
                 <button class="modal__close"></button>
                 <h2 class="modal__heading">Edit Profile</h2>
-                <form class="modal__form" novalidate>
+                <form class="modal__form" name="editModalForm" novalidate>
                     <input id="name-input" class="modal__input" type="text" name="name" placeholder="Name" required minlength="2" maxlength="40" value=" ">
                     <span class="name-input-error modal__error"></span>
                     <input id="desc-input" class="modal__input" type="text" name="desc" placeholder="Description" required minlength="2" maxlength="200" value=" ">
@@ -50,7 +50,7 @@
             <div class="modal__container">
                 <button class="modal__close"></button>
                 <h2 class="modal__heading">New Place</h2>
-                <form class="modal__form" novalidate>
+                <form class="modal__form" name="addModalForm" novalidate>
                     <input id="title-input" class="modal__input" type="text" name="title" placeholder="Title" required minlength="1" maxlength="30">
                     <span class="title-input-error modal__error"></span>
                     <input id="link-input" class="modal__input" type="url" name="link" placeholder="Image link" required>

@@ -38,14 +38,16 @@ const initialCards = [
 ]
 
 const places = document.querySelector(".places");
-const cardSelector = document.querySelector('#card');
-initialCards.forEach((data) => {
-    createAndAddCard(data);
-})
+const cardTemplate = document.querySelector('#card');
+initialCards.forEach(createAndAddCard);
 
 function createAndAddCard(data) {
-    const card = new Card(data, cardSelector, openImageModal)
+    const card = createCard(data);
     places.append(card.createCard());
+}
+
+function createCard(data) {
+    return new Card(data, cardTemplate, openImageModal);    
 }
 
 const pictureModal = document.querySelector('.modal[id=imageModal]');
@@ -77,7 +79,7 @@ function openProfileModal() {
     openPopup(editModal);
 }
 
-const editModalForm = editModal.querySelector('.modal__form');
+const editModalForm = document.forms['editModalForm'];
 const editModalValidator = new FormValidator(editModalForm, config);
 editModalValidator.enableValidation();
 editModalForm.addEventListener("submit", saveProfileData);
@@ -99,7 +101,7 @@ addButton.addEventListener("click", () => {
     openPopup(addModal);
 });
 
-const addModalForm = addModal.querySelector('.modal__form');
+const addModalForm = document.forms['addModalForm']
 const addModalValidator = new FormValidator(addModalForm, config);
 addModalValidator.enableValidation();
 addModalForm.addEventListener("submit", savePlaceData);

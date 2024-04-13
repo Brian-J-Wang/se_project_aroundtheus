@@ -1,43 +1,43 @@
 class Card {
-    constructor(data, cardSelector, handleImageClick) {
+    constructor(data, cardTemplate, handleImageClick) {
         this._data = data;
-        this._cardSelector = cardSelector;
+        this._cardTemplate = cardTemplate;
+        this._cardElement = this._cardTemplate.content.cloneNode(true);
+        this._cardImage = this._cardElement.querySelector('.places__image');
         this._handleImageClick = handleImageClick;
     }
 
     createCard() {
-        const cardCopy = this._cardSelector.content.cloneNode(true);
-        const cardImage = cardCopy.querySelector(".places__image");
-        cardImage.src = this._data.link;
-        cardImage.alt = this._data.name;
+        this._cardImage.src = this._data.link;
+        this._cardImage.alt = this._data.name;
 
-        cardCopy.querySelector('.places__name').textContent = this._data.name;
+        this._cardElement.querySelector('.places__name').textContent = this._data.name;
 
-        this._setEventListeners(cardCopy);
+        this._setEventListeners();
 
-        return cardCopy;
+        return this._cardElement;
     }
 
-    _setEventListeners(cardCopy) {
+    _setEventListeners() {
 
-        this._setDeleteHandler(cardCopy);
-        this._setLikeHandler(cardCopy);
+        this._setDeleteHandler();
+        this._setLikeHandler();
 
-        const cardImage = cardCopy.querySelector('.places__image');
+        const cardImage = this._cardElement.querySelector('.places__image');
         cardImage.addEventListener('click', () => {
             this._handleImageClick(cardImage);
         });
     }
 
     _setDeleteHandler(cardCopy) {
-        const deleteButton = cardCopy.querySelector('.places__delete');
+        const deleteButton = this._cardElement.querySelector('.places__delete');
         deleteButton.addEventListener("click", () => {
             deleteButton.closest('.places__card').remove();
         });
     }
 
     _setLikeHandler(cardCopy) {
-        const heartButton = cardCopy.querySelector('.places__heart');
+        const heartButton = this._cardElement.querySelector('.places__heart');
         heartButton.addEventListener("click", () => {
             heartButton.classList.toggle('places__heart_enabled');
         });
