@@ -43,7 +43,7 @@ initialCards.forEach(createAndAddCard);
 
 function createAndAddCard(data) {
     const card = createCard(data);
-    places.append(card.createCard());
+    places.prepend(card.createCard());
 }
 
 function createCard(data) {
@@ -129,6 +129,12 @@ closeModalButtons.forEach((closeButton) => {
 });
 
 function openPopup(modalElement) {
+    const modalInputs = Array.from(modalElement.querySelectorAll('.modal__input'));
+
+    if (checkValidity(modalInputs)) {
+        modalElement.querySelector('[name = submit-button]').setAttribute('disabled', '');
+    }
+
     modalElement.classList.add('modal_opened');
     document.addEventListener('keyup', closeModalByEscKey);
 }
@@ -136,6 +142,12 @@ function openPopup(modalElement) {
 function closePopup(modalElement) {
     document.removeEventListener('keyup', closeModalByEscKey);
     modalElement.classList.remove('modal_opened'); 
+}
+
+function checkValidity(inputs) {
+    return inputs.some((input) => {
+        return !input.validity.valid;
+    });
 }
 
 //close by escape key
