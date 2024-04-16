@@ -98,20 +98,8 @@ const inputTitle = addModal.querySelector('.modal__input[name=title]');
 const inputLink = addModal.querySelector('.modal__input[name=link]');
 const addButton = document.querySelector('.profile__add');
 addButton.addEventListener('click', () => {
-    if (inputTitle.value == '' || inputLink == '') {
-        const addSubmitButton = addModal.querySelector('[name = submit-button]');
-        addSubmitButton.setAttribute('disabled', '');
-        addSubmitButton.classList.add('modal__button_disabled');
-    }
-
     openPopup(addModal);
 });
-
-function checkValidity(inputs) {
-    return inputs.some((input) => {
-        return !input.validity.valid;
-    });
-}
 
 const addModalForm = document.forms['addModalForm']
 const addModalValidator = new FormValidator(addModalForm, config);
@@ -141,10 +129,6 @@ closeModalButtons.forEach((closeButton) => {
 });
 
 function openPopup(modalElement) {
-    const modalInputs = Array.from(modalElement.querySelectorAll('.modal__input'));
-
-    
-
     modalElement.classList.add('modal_opened');
     document.addEventListener('keyup', closeModalByEscKey);
 }
@@ -153,8 +137,6 @@ function closePopup(modalElement) {
     document.removeEventListener('keyup', closeModalByEscKey);
     modalElement.classList.remove('modal_opened'); 
 }
-
-
 
 //close by escape key
 function closeModalByEscKey(evt) {
