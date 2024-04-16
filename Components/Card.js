@@ -4,6 +4,8 @@ class Card {
         this._cardTemplate = cardTemplate;
         this._cardElement = this._cardTemplate.content.cloneNode(true);
         this._cardImage = this._cardElement.querySelector('.places__image');
+        this._deleteButton = this._cardElement.querySelector('.places__delete');
+        this._heartButton = this._cardElement.querySelector('.places__heart');
         this._handleImageClick = handleImageClick;
     }
 
@@ -19,27 +21,22 @@ class Card {
     }
 
     _setEventListeners() {
-
         this._setDeleteHandler();
         this._setLikeHandler();
-
-        const cardImage = this._cardElement.querySelector('.places__image');
-        cardImage.addEventListener('click', () => {
-            this._handleImageClick(cardImage);
+        this._cardImage.addEventListener('click', () => {
+            this._handleImageClick(this._cardImage);
         });
     }
 
     _setDeleteHandler(cardCopy) {
-        const deleteButton = this._cardElement.querySelector('.places__delete');
-        deleteButton.addEventListener("click", () => {
-            deleteButton.closest('.places__card').remove();
+        this._deleteButton.addEventListener("click", () => {
+            this._deleteButton.closest('.places__card').remove();
         });
     }
 
     _setLikeHandler(cardCopy) {
-        const heartButton = this._cardElement.querySelector('.places__heart');
-        heartButton.addEventListener("click", () => {
-            heartButton.classList.toggle('places__heart_enabled');
+        this._heartButton.addEventListener("click", () => {
+            this._heartButton.classList.toggle('places__heart_enabled');
         });
     }
 }
