@@ -96,10 +96,12 @@ function saveProfileData(evt) {
 const addModal = document.querySelector('.modal[id=addModal]');
 const inputTitle = addModal.querySelector('.modal__input[name=title]');
 const inputLink = addModal.querySelector('.modal__input[name=link]');
-const addButton = document.querySelector(".profile__add");
-addButton.addEventListener("click", () => {
-    if (checkValidity([inputTitle, inputLink])) {
-        addModal.querySelector('[name = submit-button]').setAttribute('disabled', '');
+const addButton = document.querySelector('.profile__add');
+addButton.addEventListener('click', () => {
+    if (inputTitle.value == '' || inputLink == '') {
+        const addSubmitButton = addModal.querySelector('[name = submit-button]');
+        addSubmitButton.setAttribute('disabled', '');
+        addSubmitButton.classList.add('modal__button_disabled');
     }
 
     openPopup(addModal);
