@@ -1,6 +1,6 @@
-class Popup {
+export default class Popup {
     constructor(popupSelector) {
-        this._popupSelector = popupSelector;
+        this._popupElement = document.querySelector(popupSelector)
     }
 
     open() {}
@@ -11,28 +11,3 @@ class Popup {
 
     setEventListeners() {}
 }
-
-class PopupWithImage extends Popup {
-    open({name, link}) {
-        // set the image's src and alt
-        // set the caption's textContent
-
-        super.open();
-    }
-}
-
-class PopupWithForm extends Popup {
-    constructor(popupSelector, callback) {
-        //the popup selector and a callback function
-    }
-
-    _getInputValues() {
-
-    }
-
-    setEventListeners() {
-        
-    }
-}
-
-export { PopupWithForm, PopupWithImage };
