@@ -9,7 +9,7 @@ class FormValidator {
     enableValidation() {
         this._formElement.addEventListener('submit', (evt) => {
             evt.preventDefault();
-            this._disableButton();
+            this._resetButtonState();
         })
 
         this._setEventListeners();
@@ -53,7 +53,8 @@ class FormValidator {
 
     _toggleButtonState() {
         if (this._hasInvalidInput()) {
-            this._disableButton();
+            this._buttonElement.setAttribute('disabled', '');
+            this._buttonElement.classList.add(this._config.inactiveButtonClass);
         } else {
             this._buttonElement.removeAttribute('disabled', '');
             this._buttonElement.classList.remove(this._config.inactiveButtonClass);
@@ -66,7 +67,9 @@ class FormValidator {
         });
     }
 
-    _disableButton() {
+    _resetButtonState(evt) {
+        console.log("here");
+
         this._buttonElement.setAttribute('disabled', '');
         this._buttonElement.classList.add(this._config.inactiveButtonClass);
     }
