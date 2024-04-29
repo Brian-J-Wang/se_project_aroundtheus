@@ -1,7 +1,7 @@
 # Project 3: Around The U.S.
 
 ## Page
-The page for this project can be found here:
+This contains the build for.The page for this project can be found here:
 https://brian-j-wang.github.io/se_project_aroundtheus/
 
 ## Overview  
@@ -26,6 +26,7 @@ EnableValidation(config) is a generalized method for adding validation to any fo
 }
 ```
 
+```
 {
     formSelector: specifies the form html element.
     inputSelector: the input elements within the form.
@@ -34,3 +35,5 @@ EnableValidation(config) is a generalized method for adding validation to any fo
     inputErrorClass: a class used to change the appearance of the input elements when incorrect data was passed.
     errorClass: a class used to change the appearance of the error span.
 }
+```
+
