@@ -1,5 +1,7 @@
 import { Card } from "../Components/Card.js";
 import { FormValidator } from "../Components/FormValidator.js";
+import Section from "../Components/Section.js";
+import PopupWithForm from "../Components/PopupWithForm.js";
 import '../styles/style.css';
 
 const config = {
@@ -38,18 +40,13 @@ const initialCards = [
     }
 ]
 
-const places = document.querySelector(".places");
 const cardTemplate = document.querySelector('#card');
-initialCards.forEach(createAndAddCard);
+const container = new Section({items: initialCards, renderer: (item, container) => {
+    const cardCopy = new Card(item, cardTemplate, openImageModal).createCard(); //change the openImageModal function;
+    container.prepend(cardCopy);
+} }, ".places" );
 
-function createAndAddCard(data) {
-    const card = createCard(data);
-    places.prepend(card);
-}
-
-function createCard(data) {
-    return new Card(data, cardTemplate, openImageModal).createCard();    
-}
+container.renderItems();
 
 const pictureModal = document.querySelector('.modal[id=imageModal]');
 const modalImage = pictureModal.querySelector('.modal__image');
@@ -65,33 +62,38 @@ function openImageModal(cardImage) {
     openPopup(pictureModal);
 }
 
-//Edit modal functions
-const editModal = document.querySelector('.modal[id=editModal]');
+//Edit modal
+const editForm = new PopupWithForm('.modal[id=editModal]',(inputs) => {
+    profileName.textContent = inputs['name-input'].value;
+    profileDesc.textContent = inputs['desc-input'].value;
+})
+editForm.setEventListeners();
+
 const inputName = editModal.querySelector('.modal__input[name=name]');
 const profileName = document.querySelector('.profile__name'); 
 const inputDesc = editModal.querySelector('.modal__input[name=desc]');
 const profileDesc = document.querySelector('.profile__desc');
 
 const editButton = document.querySelector('.profile__edit');
-editButton.addEventListener("click", openProfileModal);
+editButton.addEventListener('click', openProfileModal);
 function openProfileModal() {
     inputName.value = profileName.textContent;
     inputDesc.value = profileDesc.textContent;
-    openPopup(editModal);
+    editForm.open();
 }
 
 const editModalForm = document.forms['editModalForm'];
 const editModalValidator = new FormValidator(editModalForm, config);
 editModalValidator.enableValidation();
-editModalForm.addEventListener("submit", saveProfileData);
-function saveProfileData(evt) {
-    evt.preventDefault();
+// editModalForm.addEventListener("submit", saveProfileData);
+// function saveProfileData(evt) {
+//     evt.preventDefault();
 
-    profileName.textContent = inputName.value;
-    profileDesc.textContent = inputDesc.value;
+//     profileName.textContent = inputName.value;
+//     profileDesc.textContent = inputDesc.value;
 
-    closePopup(editModal);
-}
+//     closePopup(editModal);
+// }
 
 //Add modal functions
 const addModal = document.querySelector('.modal[id=addModal]');
@@ -114,13 +116,15 @@ function savePlaceData(evt) {
         link: inputLink.value
     }
     
-    createAndAddCard(cardInfo);
+    const card = new Card(cardInfo, cardTemplate, openImageModal).createCard();
+    places.prepend(card);
 
     closePopup(addModal);
     evt.target.reset();
 }
 
 //close modal window functions
+//close by close button
 const closeModalButtons = document.querySelectorAll(".modal__close");
 closeModalButtons.forEach((closeButton) => {
     const modal = closeButton.closest('.modal');
@@ -150,13 +154,13 @@ function closeModalByEscKey(evt) {
 }
 
 //close by cicking overlay
-const modalList = document.querySelectorAll('.modal');
-modalList.forEach((modalElement) => {
-    modalElement.addEventListener('click', closeModalByClickingOverlay);
-});
+// const modalList = document.querySelectorAll('.modal');
+// modalList.forEach((modalElement) => {
+//     modalElement.addEventListener('click', closeModalByClickingOverlay);
+// });
 
-function closeModalByClickingOverlay(evt) {
-    if (evt.target.classList.contains("modal")) {
-        closePopup(evt.currentTarget);
-    }
-}
+// function closeModalByClickingOverlay(evt) {
+//     if (evt.target.classList.contains("modal")) {
+//         closePopup(evt.currentTarget);
+//     }
+// }

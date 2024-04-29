@@ -1,18 +1,18 @@
 class UserInfo {
     constructor({name, desc}) {
-        this._name = name;
-        this._desc = desc;
+        this._name = document.querySelector(name);
+        this._desc = document.querySelector(desc);
     }
 
     getUserInfo() {
         return {
-            name: this._name,
-            desc: this._desc
+            name: this._name.textContent,
+            desc: this._desc.textContent
         }
     }
 
     setUserInfor({name, desc}) {
-        this._name = name;
-        this._desc = desc;
+        this._name.textContent = name;
+        this._desc.textContent = desc;
     }
 }
