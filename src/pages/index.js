@@ -4,6 +4,7 @@ import Section from "../Components/Section.js";
 import UserInfo from "../Components/UserInfo.js";
 import PopupWithForm from "../Components/PopupWithForm.js";
 import '../styles/style.css';
+import PopupWithImage from "../Components/PopupWithImage.js";
 
 const config = {
     formSelector: ".modal__form",
@@ -48,19 +49,17 @@ const container = new Section({items: initialCards, renderer: (item, container) 
 } }, ".places" );
 container.renderItems();
 
-const pictureModal = document.querySelector('.modal[id=imageModal]');
-const modalImage = pictureModal.querySelector('.modal__image');
-const modalCaption = pictureModal.querySelector('.modal__caption');
+//Image modal
+const imagePopup = new PopupWithImage('.modal[id=imageModal]');
 function openImageModal(cardImage) {
-    const imageSrc = cardImage.getAttribute('src');
-    const imageAlt = cardImage.getAttribute('alt');
-    modalImage.setAttribute('src', imageSrc);
-    modalImage.setAttribute('alt', imageAlt);
-    const imageCaption = imageAlt;
-    modalCaption.innerText = imageCaption;
+    const cardData = {
+        name: cardImage.getAttribute('alt'),
+        link: cardImage.getAttribute('src')
+    }
 
-    openPopup(pictureModal);
+    imagePopup.open(cardData);
 }
+imagePopup.setEventListeners();
 
 //User Information
 const nameSelector = '.profile__name';
