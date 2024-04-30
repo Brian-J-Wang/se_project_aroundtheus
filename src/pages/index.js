@@ -44,7 +44,7 @@ const initialCards = [
 
 const cardTemplate = document.querySelector('#card');
 const container = new Section({items: initialCards, renderer: (item, container) => {
-    const cardCopy = new Card(item, cardTemplate, openImageModal).createCard(); //change the openImageModal function;
+    const cardCopy = new Card(item, cardTemplate, openImageModal).createCard();
     container.prepend(cardCopy);
 } }, ".places" );
 container.renderItems();
@@ -94,15 +94,7 @@ function openProfileModal() {
 const editModalForm = document.forms['editModalForm'];
 const editModalValidator = new FormValidator(editModalForm, config);
 editModalValidator.enableValidation();
-// editModalForm.addEventListener("submit", saveProfileData);
-// function saveProfileData(evt) {
-//     evt.preventDefault();
 
-//     profileName.textContent = inputName.value;
-//     profileDesc.textContent = inputDesc.value;
-
-//     closePopup(editModal);
-// }
 
 
 
@@ -124,65 +116,6 @@ addButton.addEventListener('click', () => {
     addForm.open();
 })
 
-// const inputTitle = addModal.querySelector('.modal__input[name=title]');
-// const inputLink = addModal.querySelector('.modal__input[name=link]');
 const addModalForm = document.forms['addModalForm']
 const addModalValidator = new FormValidator(addModalForm, config);
 addModalValidator.enableValidation();
-// addModalForm.addEventListener("submit", savePlaceData);
-// function savePlaceData(evt) {
-//     evt.preventDefault();
-
-//     const cardInfo = {
-//         name: inputTitle.value,
-//         link: inputLink.value
-//     }
-    
-//     const card = new Card(cardInfo, cardTemplate, openImageModal).createCard();
-//     places.prepend(card);
-
-//     closePopup(addModal);
-//     evt.target.reset();
-// }
-
-//close modal window functions
-//close by close button
-// const closeModalButtons = document.querySelectorAll(".modal__close");
-// closeModalButtons.forEach((closeButton) => {
-//     const modal = closeButton.closest('.modal');
-//     closeButton.addEventListener("click", () => {
-//         closePopup(modal);
-//     });
-// });
-
-// function openPopup(modalElement) {
-//     modalElement.classList.add('modal_opened');
-//     document.addEventListener('keyup', closeModalByEscKey);
-// }
-
-// function closePopup(modalElement) {
-//     document.removeEventListener('keyup', closeModalByEscKey);
-//     modalElement.classList.remove('modal_opened'); 
-// }
-
-// //close by escape key
-// function closeModalByEscKey(evt) {
-//     if (evt.key != 'Escape') {
-//         return;
-//     }
-
-//     const activeModal = document.querySelector('.modal_opened');
-//     closePopup(activeModal);
-// }
-
-//close by cicking overlay
-// const modalList = document.querySelectorAll('.modal');
-// modalList.forEach((modalElement) => {
-//     modalElement.addEventListener('click', closeModalByClickingOverlay);
-// });
-
-// function closeModalByClickingOverlay(evt) {
-//     if (evt.target.classList.contains("modal")) {
-//         closePopup(evt.currentTarget);
-//     }
-// }
