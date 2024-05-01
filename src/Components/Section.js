@@ -13,7 +13,6 @@ export default class Section {
     }
 
     addItem(element) {
-        this._items.push(element);
         this._renderer(element, this._container);
     }
 }
