@@ -17,6 +17,7 @@
 }
 
 .places__image-container {
+    cursor: pointer;
     position: relative;
 }
 

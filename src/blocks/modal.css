@@ -69,6 +69,7 @@
     background-size: contain;
     border: none;
     background-color: transparent;
+    cursor: pointer;
     transition: opacity 0.15s ease-in;
 }
 
@@ -131,6 +132,7 @@
     background-color: #000;
     font-size: 18px;
     line-height: 21.78px;
+    cursor: pointer;
     transition: opacity 0.15s ease-in;
 }
 
