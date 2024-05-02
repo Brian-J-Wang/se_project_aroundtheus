@@ -77,7 +77,6 @@ const editForm = new PopupWithForm('.modal[id=editModal]',(inputs) => {
 })
 editForm.setEventListeners();
 
-
 const inputName = editModal.querySelector('.modal__input[name=name]');
 const inputDesc = editModal.querySelector('.modal__input[name=desc]');
 const editButton = document.querySelector('.profile__edit');
@@ -90,11 +89,9 @@ function openProfileModal() {
     editForm.open();
 }
 
-
 const editModalForm = document.forms['editModalForm'];
 const editModalValidator = new FormValidator(editModalForm, config);
 editModalValidator.enableValidation();
-
 
 
 
