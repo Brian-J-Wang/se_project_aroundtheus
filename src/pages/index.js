@@ -42,12 +42,15 @@ const initialCards = [
     }
 ]
 
+const renderCard = (card) => {
+    return new Card(card, cardTemplate, openImageModal).createCard();
+}
+
 const cardTemplate = document.querySelector('#card');
-const container = new Section({items: initialCards, renderer: (item, container) => {
-    const cardCopy = new Card(item, cardTemplate, openImageModal).createCard();
-    container.prepend(cardCopy);
-} }, ".places" );
+const container = new Section({items: initialCards, renderer: renderCard }, ".places" );
 container.renderItems();
+
+
 
 //Image modal
 const imagePopup = new PopupWithImage('.modal[id=imageModal]');
@@ -69,8 +72,8 @@ const profileElement = new UserInfo({name: nameSelector, desc: descSelector});
 //Edit modal
 const editForm = new PopupWithForm('.modal[id=editModal]',(inputs) => {
     const userInfo = {
-        name: inputs['name-input'].value,
-        desc: inputs['desc-input'].value
+        name: inputs['name-input'],
+        desc: inputs['desc-input']
     }
 
     profileElement.setUserInfo(userInfo);
@@ -102,7 +105,7 @@ const addForm = new PopupWithForm('.modal[id=addModal]', (inputs) => {
         link: inputs['link-input']
     }
 
-    const card = new Card(cardInfo, cardTemplate, openImageModal).createCard();
+    const card = renderCard(cardInfo);
     container.addItem(card);
 });
 addForm.setEventListeners();
