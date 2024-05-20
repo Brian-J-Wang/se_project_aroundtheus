@@ -1,3 +1,4 @@
+import Api from "../Components/Api.js";
 import { Card } from "../Components/Card.js";
 import { FormValidator } from "../Components/FormValidator.js";
 import Section from "../Components/Section.js";
@@ -5,6 +6,7 @@ import UserInfo from "../Components/UserInfo.js";
 import PopupWithForm from "../Components/PopupWithForm.js";
 import '../styles/style.css';
 import PopupWithImage from "../Components/PopupWithImage.js";
+import PopupWithConfirm from "../Components/PopupWithConfirm.js";
 
 const config = {
     formSelector: ".modal__form",
@@ -15,42 +17,55 @@ const config = {
     errorClass: "modal__error_visible"
 };
 
-const initialCards = [
-    {
-        name: "New York",
-        link: "https://plus.unsplash.com/premium_photo-1681803606255-cb66b02f2b56?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-        name: "Chicago",
-        link: "https://images.unsplash.com/photo-1494522855154-9297ac14b55f?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-        name: "Golden Gate",
-        link: "https://images.unsplash.com/photo-1574054394439-06aef14b154e?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-        name: "Bald Mountains",
-        link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/bald-mountains.jpg",
-    },
-    {
-        name: "Latemar",
-        link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/latemar.jpg",
-    },
-    {
-        name: "Yosemite Valley",
-        link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/yosemite.jpg",
+const API = new Api({
+    baseUrl: "https://around-api.en.tripleten-services.com/v1",
+    headers: {
+      authorization: "e8616e37-d8e6-434f-880a-27a697920338",
+      "Content-Type": "application/json"
     }
-]
+});
 
-const renderCard = (card) => {
-    return new Card(card, cardTemplate, openImageModal).createCard();
-}
+const confirmPopup = new PopupWithConfirm('.modal[id=confirmModal]');
+confirmPopup.setEventListeners();
 
 const cardTemplate = document.querySelector('#card');
-const container = new Section({items: initialCards, renderer: renderCard }, ".places" );
-container.renderItems();
+const renderCard = (cardData) => {
+    return new Card(cardData, cardTemplate, openImageModal, 
+    (data, deleteButton) => {
+        confirmPopup.onPopupConfirm(() => {
+            API.deleteCard(data._id)
+            .then((res) => {
+                deleteButton.closest('.places__card').remove();
+                console.log(res);
+            });
+        })
+    }, 
+    (isLiked, data) => {
+        if (isLiked) {
+            API.addLike(data._id)
+            .then(res => {
+                console.log(res);
+            });
+        } else {
+            API.removeLike(data._id)
+            .then(res => {
+                console.log(res);
+            });
+        }
+    }).createCard();
+}
+const container = new Section({items: [], renderer: renderCard }, ".places" );
+API.getInitialCards()
+.then(cards => {
+    cards.forEach(card => {
 
+        console.log(card);
 
+        const cardElement = renderCard(card);
+
+        container.addItem(cardElement);
+    });
+});
 
 //Image modal
 const imagePopup = new PopupWithImage('.modal[id=imageModal]');
@@ -69,14 +84,23 @@ const nameSelector = '.profile__name';
 const descSelector = '.profile__desc';
 const profileElement = new UserInfo({name: nameSelector, desc: descSelector});
 
+API.getUserInformation()
+    .then(userInfo => {
+        profileElement.setUserInfo({name: userInfo.name, desc: userInfo.about});
+    });
+
 //Edit modal
 const editForm = new PopupWithForm('.modal[id=editModal]',(inputs) => {
     const userInfo = {
         name: inputs['name-input'],
-        desc: inputs['desc-input']
+        about: inputs['desc-input']
     }
 
-    profileElement.setUserInfo(userInfo);
+    API.updateUserInformation({name: userInfo.name, about: userInfo.about})
+    .then(res => {
+        profileElement.setUserInfo({name: res.name, desc: res.about});
+    });
+    
 })
 editForm.setEventListeners();
 
@@ -105,8 +129,11 @@ const addForm = new PopupWithForm('.modal[id=addModal]', (inputs) => {
         link: inputs['link-input']
     }
 
-    const card = renderCard(cardInfo);
-    container.addItem(card);
+    API.createCard({name: cardInfo.name, link: cardInfo.link})
+    .then(res => {
+        const card = renderCard(cardInfo);
+        container.addItem(card);
+    })
 });
 addForm.setEventListeners();
 

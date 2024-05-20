@@ -68,6 +68,16 @@
             </div>
         </div>
 
+        <div class="modal modal_padding_wide" id="confirmModal">
+            <div class="modal__container">
+                <h2 class="modal__heading"> Are you sure?</h2>
+                <button class="modal__close modal__close-image"></button>
+                <form class="modal__form" name="confirmModalForm" novalidate>
+                    <button name="confirm-button" class="modal__button" type="submit">Confirm</button>
+                </form>
+            </div>
+        </div>
+
         <template id="card">
             <div class="places__card">
                 <div class="places__image-container">
@@ -82,8 +92,6 @@
             </div>
         </template>
 
-        <script type="module" src="./Components/Card.js"></script>
-        <script type="module" src="./Components/FormValidator.js"></script>
         <script type="module" src="./pages/index.js"></script>
     </body>
 </html>
