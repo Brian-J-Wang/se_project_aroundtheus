@@ -14,7 +14,10 @@
             </header>
             <main>
                 <section class="profile">
-                    <div class="profile__avatar"> </div>
+                    <div class="profile__avatar-container" id="profile-avatar">
+                        <img src="<%=require('./images/jacques-cousteau.jpg')%>" alt="profile" class="profile__avatar-image">
+                        <div class="profile__avatar-overlay"></div>
+                    </div>
                     <div class="profile__info">
                         <div class = "profile__name-container">
                             <h1 class="profile__name">Jacques Cousteau</h1>
@@ -70,10 +73,21 @@
 
         <div class="modal modal_padding_wide" id="confirmModal">
             <div class="modal__container">
-                <h2 class="modal__heading"> Are you sure?</h2>
                 <button class="modal__close modal__close-image"></button>
+                <h2 class="modal__heading">Are you sure?</h2>
                 <form class="modal__form" name="confirmModalForm" novalidate>
                     <button name="confirm-button" class="modal__button" type="submit">Confirm</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="modal modal_padding_wide" id="editAvatarModal">
+            <div class="modal__container">
+                <button class="modal__close modal__close-image"></button>
+                <h2 class="modal__heading">Change profile picture</h2>
+                <form class="modal__form" name="editAvatarModalForm" novalidate>
+                    <input type="text" id="avatar-link" class="modal__input" name="link" placeholder="Avatar Link" required>
+                    <button name="submit-button" class="modal__button modal__button-spacing_large" type="submit">Save</button>
                 </form>
             </div>
         </div>

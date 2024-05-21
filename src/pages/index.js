@@ -33,24 +33,17 @@ const renderCard = (cardData) => {
     return new Card(cardData, cardTemplate, openImageModal, 
     (data, deleteButton) => {
         confirmPopup.onPopupConfirm(() => {
-            API.deleteCard(data._id)
-            .then((res) => {
+            return API.deleteCard(data._id)
+            .then(() => {
                 deleteButton.closest('.places__card').remove();
-                console.log(res);
             });
         })
     }, 
     (isLiked, data) => {
         if (isLiked) {
             API.addLike(data._id)
-            .then(res => {
-                console.log(res);
-            });
         } else {
             API.removeLike(data._id)
-            .then(res => {
-                console.log(res);
-            });
         }
     }).createCard();
 }
@@ -58,11 +51,7 @@ const container = new Section({items: [], renderer: renderCard }, ".places" );
 API.getInitialCards()
 .then(cards => {
     cards.forEach(card => {
-
-        console.log(card);
-
         const cardElement = renderCard(card);
-
         container.addItem(cardElement);
     });
 });
@@ -82,27 +71,27 @@ imagePopup.setEventListeners();
 //User Information
 const nameSelector = '.profile__name';
 const descSelector = '.profile__desc';
-const profileElement = new UserInfo({name: nameSelector, desc: descSelector});
-
+const avatarSelector = '.profile__avatar-image';
+const profileElement = new UserInfo({name: nameSelector, desc: descSelector, avatar: avatarSelector});
 API.getUserInformation()
     .then(userInfo => {
+        document.querySelector(avatarSelector).setAttribute('src', userInfo.avatar);
         profileElement.setUserInfo({name: userInfo.name, desc: userInfo.about});
     });
 
-//Edit modal
-const editForm = new PopupWithForm('.modal[id=editModal]',(inputs) => {
+//Edit user info modal
+const editInfoForm = new PopupWithForm('.modal[id=editModal]',(inputs) => {
     const userInfo = {
         name: inputs['name-input'],
         about: inputs['desc-input']
     }
 
-    API.updateUserInformation({name: userInfo.name, about: userInfo.about})
-    .then(res => {
+    return API.updateUserInformation({name: userInfo.name, about: userInfo.about})
+    .then((res) => {
         profileElement.setUserInfo({name: res.name, desc: res.about});
     });
-    
 })
-editForm.setEventListeners();
+editInfoForm.setEventListeners();
 
 const inputName = editModal.querySelector('.modal__input[name=name]');
 const inputDesc = editModal.querySelector('.modal__input[name=desc]');
@@ -113,14 +102,33 @@ function openProfileModal() {
 
     inputName.value = userInfo.name;
     inputDesc.value = userInfo.desc;
-    editForm.open();
+    editInfoForm.open();
 }
 
 const editModalForm = document.forms['editModalForm'];
 const editModalValidator = new FormValidator(editModalForm, config);
 editModalValidator.enableValidation();
 
+//Edit user avatar modal
+const avatarImage = document.querySelector('.profile__avatar-image');
+const editAvatarForm = new PopupWithForm('.modal[id=editAvatarModal]', (inputs) => {
+    const avatarLink = inputs['avatar-link'];
 
+    console.log(avatarLink);
+
+    return API.updateAvatar(avatarLink)
+    .then(res => {
+        
+        avatarImage.setAttribute('src', res.avatar);
+    })
+})
+editAvatarForm.setEventListeners();
+
+const avatarElement = document.querySelector('.profile__avatar-container');
+avatarElement.addEventListener('click', openEditAvatarModal)
+function openEditAvatarModal() {
+    editAvatarForm.open();    
+}
 
 //Add modal functions
 const addForm = new PopupWithForm('.modal[id=addModal]', (inputs) => {
@@ -129,7 +137,9 @@ const addForm = new PopupWithForm('.modal[id=addModal]', (inputs) => {
         link: inputs['link-input']
     }
 
-    API.createCard({name: cardInfo.name, link: cardInfo.link})
+    console.log(cardInfo)
+
+    return API.createCard({name: cardInfo.name, link: cardInfo.link})
     .then(res => {
         const card = renderCard(cardInfo);
         container.addItem(card);

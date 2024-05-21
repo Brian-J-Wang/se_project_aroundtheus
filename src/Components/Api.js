@@ -40,8 +40,17 @@ export default class Api {
         return fetch(this._url.concat("/users/me/avatar"), {
             method: "PATCH",
             headers: this._headers,
-            body: json.stringify(avatarLink)
+            body: JSON.stringify({
+                avatar: avatarLink
+            })
         })
+        .then (res => {
+            if (res.ok) {
+                return res.json();
+            } else {
+                return this.handleError(res);
+            }
+        });
     }
 
     getInitialCards() {
