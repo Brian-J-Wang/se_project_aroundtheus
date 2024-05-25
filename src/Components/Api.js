@@ -58,7 +58,7 @@ export default class Api {
           method: "GET",
           headers: this._headers
         })
-        .then(res => {
+        .then(res => {  
             if (res.ok) {
                 return res.json();
             } else {
@@ -135,8 +135,13 @@ export default class Api {
     }
   
     // other methods for working with the API
-}
+  }
   
-
-
+const api = new Api({
+    baseUrl: "https://around-api.en.tripleten-services.com/v1",
+    headers: {
+      authorization: "e8616e37-d8e6-434f-880a-27a697920338",
+      "Content-Type": "application/json"
+    }
+});
 
