@@ -43,7 +43,7 @@
                     <span class="name-input-error modal__error"></span>
                     <input id="desc-input" class="modal__input" type="text" name="desc" placeholder="Description" required minlength="2" maxlength="200" value=" ">
                     <span class="desc-input-error modal__error"></span>
-                    <button name="submit-button" class="modal__button" type="submit">Save</button>
+                    <button name="submit-button" class="modal__button" type="submit" disabled>Save</button>
                 </form>
             </div>
         </div>
@@ -57,7 +57,7 @@
                     <span class="title-input-error modal__error"></span>
                     <input id="link-input" class="modal__input" type="url" name="link" placeholder="Image link" required>
                     <span class="link-input-error modal__error"></span>
-                    <button name="submit-button" class="modal__button" type="submit">Create</button>
+                    <button name="submit-button" class="modal__button" type="submit" disabled>Create</button>
                 </form>
             </div>
         </div>
@@ -85,8 +85,9 @@
                 <button class="modal__close modal__close-image"></button>
                 <h2 class="modal__heading">Change profile picture</h2>
                 <form class="modal__form" name="editAvatarModalForm" novalidate>
-                    <input type="text" id="avatar-link" class="modal__input" name="link" placeholder="Avatar Link" required>
-                    <button name="submit-button" class="modal__button modal__button-spacing_large" type="submit">Save</button>
+                    <input type="url" id="avatar-input" class="modal__input" name="link" placeholder="Avatar Link" required>
+                    <span class="avatar-input-error modal__error"></span>
+                    <button name="submit-button" class="modal__button" type="submit">Save</button>
                 </form>
             </div>
         </div>

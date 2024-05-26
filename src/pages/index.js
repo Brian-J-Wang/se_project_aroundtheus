@@ -93,9 +93,10 @@ const editInfoForm = new PopupWithForm('.modal[id=editModal]',(inputs) => {
 })
 editInfoForm.setEventListeners();
 
+const editButtonSelector = '.profile__edit';
 const inputName = editModal.querySelector('.modal__input[name=name]');
 const inputDesc = editModal.querySelector('.modal__input[name=desc]');
-const editButton = document.querySelector('.profile__edit');
+const editButton = document.querySelector(editButtonSelector);
 editButton.addEventListener('click', openProfileModal);
 function openProfileModal() {
     const userInfo = profileElement.getUserInfo();
@@ -106,17 +107,16 @@ function openProfileModal() {
 }
 
 const editModalForm = document.forms['editModalForm'];
-const editModalValidator = new FormValidator(editModalForm, config);
+const editModalValidator = new FormValidator(editModalForm, config, editButtonSelector);
 editModalValidator.enableValidation();
 
 //Edit user avatar modal
+const editAvatarSelector = '.profile__avatar-container';
 const avatarImage = document.querySelector('.profile__avatar-image');
 const editAvatarForm = new PopupWithForm('.modal[id=editAvatarModal]', (inputs) => {
-    const avatarLink = inputs['avatar-link'];
+    const linkInput = inputs['avatar-input'];
 
-    console.log(avatarLink);
-
-    return API.updateAvatar(avatarLink)
+    return API.updateAvatar(linkInput)
     .then(res => {
         
         avatarImage.setAttribute('src', res.avatar);
@@ -124,11 +124,15 @@ const editAvatarForm = new PopupWithForm('.modal[id=editAvatarModal]', (inputs) 
 })
 editAvatarForm.setEventListeners();
 
-const avatarElement = document.querySelector('.profile__avatar-container');
+const avatarElement = document.querySelector(editAvatarSelector);
 avatarElement.addEventListener('click', openEditAvatarModal)
 function openEditAvatarModal() {
     editAvatarForm.open();    
 }
+
+const avatarModalForm = document.forms['editAvatarModalForm']
+const avatarModalValidator = new FormValidator(avatarModalForm, config, editAvatarSelector);
+avatarModalValidator.enableValidation();
 
 //Add modal functions
 const addForm = new PopupWithForm('.modal[id=addModal]', (inputs) => {
@@ -147,12 +151,12 @@ const addForm = new PopupWithForm('.modal[id=addModal]', (inputs) => {
 });
 addForm.setEventListeners();
 
-
-const addButton = document.querySelector('.profile__add');
+const addButtonSelector = '.profile__add';
+const addButton = document.querySelector(addButtonSelector);
 addButton.addEventListener('click', () => {
     addForm.open();
 })
 
 const addModalForm = document.forms['addModalForm']
-const addModalValidator = new FormValidator(addModalForm, config);
+const addModalValidator = new FormValidator(addModalForm, config, addButtonSelector);
 addModalValidator.enableValidation();

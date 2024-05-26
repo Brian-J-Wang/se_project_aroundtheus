@@ -1,7 +1,8 @@
 class FormValidator {
-    constructor(formElement, config) {
+    constructor(formElement, config, formButtonSelector) {
         this._config = config;
         this._formElement = formElement;
+        this._formButton = document.querySelector(formButtonSelector);
         this._inputList = Array.from(this._formElement.querySelectorAll(this._config.inputSelector));
         this._buttonElement = this._formElement.querySelector(this._config.submitButtonSelector);
     }
@@ -18,10 +19,13 @@ class FormValidator {
         this._inputList.forEach((inputElement) => {
             inputElement.addEventListener("input", () => {
                 this._checkInputValidity(inputElement);
-    
                 this._toggleButtonState();
             }) 
         });
+
+        this._formButton.addEventListener("click", () => {
+             this._toggleButtonState();
+        })
 
         this._toggleButtonState();
     }
