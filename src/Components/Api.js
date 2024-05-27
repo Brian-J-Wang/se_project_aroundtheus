@@ -5,126 +5,73 @@ export default class Api {
     }
 
     getUserInformation() {
-        return fetch(this._url.concat("/users/me"), {
+        return this._request(this._url.concat("/users/me"),
+        {
             method: "GET",
             headers: this._headers
-        })
-        .then (res => {
-            if (res.ok) {
-                return res.json();
-            } else {
-                return this.handleError(res);
-            }
-        })
+        });
     }
 
     updateUserInformation({name, about}) {
-        return fetch(this._url.concat("/users/me"), {
+        return this._request(this._url.concat("/users/me"),
+        {
             method: "PATCH",
             headers: this._headers,
             body: JSON.stringify({
                 name: name,
                 about: about
             })
-        })
-        .then (res => {
-            if (res.ok) {
-                return res.json();
-            } else {
-                return this.handleError(res);
-            }
-        })
+        });
     }
 
     updateAvatar(avatarLink) {
-        return fetch(this._url.concat("/users/me/avatar"), {
+        return this._request(this._url.concat("/users/me/avatar"), 
+        {
             method: "PATCH",
             headers: this._headers,
             body: JSON.stringify({
                 avatar: avatarLink
             })
-        })
-        .then (res => {
-            if (res.ok) {
-                return res.json();
-            } else {
-                return this.handleError(res);
-            }
         });
     }
 
     getInitialCards() {
-        return fetch(this._url.concat("/cards"), {
-          method: "GET",
-          headers: this._headers
-        })
-        .then(res => {  
-            if (res.ok) {
-                return res.json();
-            } else {
-                return this.handleError(res);
-            }
-        })
+        return this._request(this._url.concat("/cards"), {
+            method: "GET",
+            headers: this._headers
+        });
     }
 
     createCard({name, link}) {
-        return fetch(this._url.concat("/cards"), {
+        return this._request(this._url.concat("/cards"), {
             method: "POST",
             headers: this._headers,
             body: JSON.stringify({
                 name: name,
                 link: link
             })
-        })
-        .then(res => {
-            if (res.ok) {
-                return res.json();
-            } else {
-                return this.handleError(res);
-            }
-        })
+        });
     }
 
     deleteCard(cardId) {
-        return fetch(this._url.concat(`/cards/${cardId}`), {
+        return this._request(this._url.concat(`/cards/${cardId}`), {
             method: "DELETE",
             headers: this._headers
-        })
-        .then(res => {
-            if (res.ok) {
-                return res.json();
-            } else {
-                return this.handleError(res);
-            }
-        })
+        });
     }
 
     addLike(cardId) {
-        return fetch(this._url.concat(`/cards/${cardId}/likes`), {
+        return this._request(this._url.concat(`/cards/${cardId}/likes`), {
             method: "PUT",
             headers: this._headers
-        })
-        .then(res => {
-            if (res.ok) {
-                return res.json();
-            } else {
-                return this.handleError(res);
-            }
-        })
+        });
     }
 
     removeLike(cardId) {
-        return fetch(this._url.concat(`/cards/${cardId}/likes`), {
+        return this._request(this._url.concat(`/cards/${cardId}/likes`), {
             method: "DELETE",
             headers: this._headers
-        })
-        .then(res => {
-            if (res.ok) {
-                return res.json();
-            } else {
-                return this.handleError(res);
-            }
-        })
+        });
     }
 
     handleError(res) {
@@ -135,6 +82,18 @@ export default class Api {
     }
   
     // other methods for working with the API
+
+    _request(url, options) {
+        return fetch(url, options).then(this._checkResponse);
+    }
+
+    _checkResponse(res) {
+        if (res.ok) {
+            return res.json();
+        } else {
+            return Promise.reject(`Error: ${res.status}`);
+        }
+    }
   }
   
 const api = new Api({
