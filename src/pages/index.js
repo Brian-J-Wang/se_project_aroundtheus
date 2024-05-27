@@ -118,7 +118,6 @@ const editAvatarForm = new PopupWithForm('.modal[id=editAvatarModal]', (inputs) 
 
     return API.updateAvatar(linkInput)
     .then(res => {
-        
         avatarImage.setAttribute('src', res.avatar);
     })
 })
@@ -136,16 +135,9 @@ avatarModalValidator.enableValidation();
 
 //Add modal functions
 const addForm = new PopupWithForm('.modal[id=addModal]', (inputs) => {
-    const cardInfo = {
-        name: inputs['title-input'],
-        link: inputs['link-input']
-    }
-
-    console.log(cardInfo)
-
-    return API.createCard({name: cardInfo.name, link: cardInfo.link})
+    return API.createCard({name: inputs['title-input'], link: inputs['link-input']})
     .then(res => {
-        const card = renderCard(cardInfo);
+        const card = renderCard(res);
         container.addItem(card);
     })
 });
