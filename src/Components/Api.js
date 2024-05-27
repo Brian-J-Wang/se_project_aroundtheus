@@ -80,8 +80,6 @@ export default class Api {
             console.error(err);
         })
     }
-  
-    // other methods for working with the API
 
     _request(url, options) {
         return fetch(url, options).then(this._checkResponse);
@@ -94,13 +92,4 @@ export default class Api {
             return Promise.reject(`Error: ${res.status}`);
         }
     }
-  }
-  
-const api = new Api({
-    baseUrl: "https://around-api.en.tripleten-services.com/v1",
-    headers: {
-      authorization: "e8616e37-d8e6-434f-880a-27a697920338",
-      "Content-Type": "application/json"
-    }
-});
-
+}
