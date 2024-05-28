@@ -27,11 +27,13 @@ export default class PopupWithForm extends Popup {
             this._popupSubmitButton.textContent = 'Saving...';
             this._popupSubmitButton.setAttribute('disabled', '');
             this._handleFormSubmit(this._getInputValues())
+            .then(() => {
+                this.close();
+            })
             .catch(reject => {
                 console.error(reject);
             })
             .finally(() => {
-                this.close();
                 this._popupSubmitButton.textContent = this._popupSubmitText;
                 this._popupSubmitButton.removeAttribute('disabled', '');
             });

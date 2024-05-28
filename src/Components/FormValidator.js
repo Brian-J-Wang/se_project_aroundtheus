@@ -23,10 +23,6 @@ class FormValidator {
             }) 
         });
 
-        this._formButton.addEventListener("click", () => {
-             this._toggleButtonState();
-        })
-
         this._toggleButtonState();
     }
 

@@ -12,7 +12,7 @@ export default class PopupWithConfirm extends Popup {
         this._popupForm.addEventListener('submit', (evt) => {
             evt.preventDefault();
 
-            this._popupSubmitButton.textContent = 'Saving...';
+            this._popupSubmitButton.textContent = 'Deleting...';
             this._popupSubmitButton.setAttribute('disabled', '');
 
             this.onConfirm()
