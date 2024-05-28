@@ -1,4 +1,3 @@
-import Api from "../Components/Api.js";
 import { Card } from "../Components/Card.js";
 import { FormValidator } from "../Components/FormValidator.js";
 import Section from "../Components/Section.js";
@@ -7,23 +6,7 @@ import PopupWithForm from "../Components/PopupWithForm.js";
 import '../styles/style.css';
 import PopupWithImage from "../Components/PopupWithImage.js";
 import PopupWithConfirm from "../Components/PopupWithConfirm.js";
-
-const config = {
-    formSelector: ".modal__form",
-    inputSelector: ".modal__input",
-    submitButtonSelector: ".modal__button",
-    inactiveButtonClass: "modal__button_disabled",
-    inputErrorClass: "modal__input_type_error",
-    errorClass: "modal__error_visible"
-};
-
-const API = new Api({
-    baseUrl: "https://around-api.en.tripleten-services.com/v1",
-    headers: {
-      authorization: "e8616e37-d8e6-434f-880a-27a697920338",
-      "Content-Type": "application/json"
-    }
-});
+import { config, API } from "../utils/constants.js";
 
 const confirmPopup = new PopupWithConfirm('.modal[id=confirmModal]');
 confirmPopup.setEventListeners();
@@ -36,25 +19,44 @@ const renderCard = (cardData) => {
             return API.deleteCard(data._id)
             .then(() => {
                 deleteButton.closest('.places__card').remove();
+            })
+            .catch((rej) => {
+                console.log(rej);
             });
         })
     }, 
-    (isLiked, data) => {
-        if (isLiked) {
+    (data, heartElement) => {
+        console.log(data);
+        if (!data.isLiked) {
             API.addLike(data._id)
+            .then(() => {
+                data.isLiked = true;
+                heartElement.classList.add('places__heart_enabled');
+            })
+            .catch(rej => {
+                console.log(rej);
+            });
         } else {
             API.removeLike(data._id)
+            .then(() => {
+                data.isLiked = false;
+                heartElement.classList.remove('places__heart_enabled');
+            })
+            .catch(rej => {
+                console.log(rej);
+            });
         }
     }).createCard();
 }
-const container = new Section({items: [], renderer: renderCard }, ".places" );
+
+const cardSection = new Section(renderCard, ".places");
 API.getInitialCards()
 .then(cards => {
-    cards.forEach(card => {
-        const cardElement = renderCard(card);
-        container.addItem(cardElement);
-    });
-});
+    cardSection.renderItems(cards);
+})
+.catch(rej => {
+    console.log(rej);
+})
 
 //Image modal
 const imagePopup = new PopupWithImage('.modal[id=imageModal]');
@@ -72,11 +74,14 @@ imagePopup.setEventListeners();
 const nameSelector = '.profile__name';
 const descSelector = '.profile__desc';
 const avatarSelector = '.profile__avatar-image';
-const profileElement = new UserInfo({name: nameSelector, desc: descSelector, avatar: avatarSelector});
+const userProfile = new UserInfo({name: nameSelector, desc: descSelector, avatar: avatarSelector});
 API.getUserInformation()
     .then(userInfo => {
-        document.querySelector(avatarSelector).setAttribute('src', userInfo.avatar);
-        profileElement.setUserInfo({name: userInfo.name, desc: userInfo.about});
+        userProfile.setUserInfo({name: userInfo.name, desc: userInfo.about});
+        userProfile.setAvatarLink(userInfo.avatar);
+    })
+    .catch(rej => {
+        console.log(rej);
     });
 
 //Edit user info modal
@@ -88,7 +93,10 @@ const editInfoForm = new PopupWithForm('.modal[id=editModal]',(inputs) => {
 
     return API.updateUserInformation({name: userInfo.name, about: userInfo.about})
     .then((res) => {
-        profileElement.setUserInfo({name: res.name, desc: res.about});
+        userProfile.setUserInfo({name: res.name, desc: res.about});
+    })
+    .catch(rej => {
+        console.log(rej);
     });
 })
 editInfoForm.setEventListeners();
@@ -99,7 +107,7 @@ const inputDesc = editModal.querySelector('.modal__input[name=desc]');
 const editButton = document.querySelector(editButtonSelector);
 editButton.addEventListener('click', openProfileModal);
 function openProfileModal() {
-    const userInfo = profileElement.getUserInfo();
+    const userInfo = userProfile.getUserInfo();
 
     inputName.value = userInfo.name;
     inputDesc.value = userInfo.desc;
@@ -118,7 +126,10 @@ const editAvatarForm = new PopupWithForm('.modal[id=editAvatarModal]', (inputs) 
 
     return API.updateAvatar(linkInput)
     .then(res => {
-        avatarImage.setAttribute('src', res.avatar);
+        userProfile.setAvatarLink(res.avatar);
+    })
+    .catch(rej => {
+        console.log(rej);
     })
 })
 editAvatarForm.setEventListeners();
@@ -138,7 +149,10 @@ const addForm = new PopupWithForm('.modal[id=addModal]', (inputs) => {
     return API.createCard({name: inputs['title-input'], link: inputs['link-input']})
     .then(res => {
         const card = renderCard(res);
-        container.addItem(card);
+        cardSection.addItem(card);
+    })
+    .catch(rej => {
+        console.log(rej);
     })
 });
 addForm.setEventListeners();

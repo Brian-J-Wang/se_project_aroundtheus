@@ -44,13 +44,7 @@ class Card {
 
     _setLikeHandler(cardCopy) {
         this._heartButton.addEventListener("click", () => {
-            this._heartButton.classList.toggle('places__heart_enabled');
-
-            if (this._heartButton.classList.contains('places__heart_enabled')) {
-                this._handleImageLike(true, this._data);
-            } else {
-                this._handleImageLike(false, this._data);
-            }
+            this._handleImageLike(this._data, this._heartButton);
         });
     }
 }
