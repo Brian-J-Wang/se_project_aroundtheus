@@ -26,7 +26,6 @@ const renderCard = (cardData) => {
         })
     }, 
     (data, heartElement) => {
-        console.log(data);
         if (!data.isLiked) {
             API.addLike(data._id)
             .then(() => {

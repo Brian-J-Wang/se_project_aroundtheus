@@ -16,11 +16,13 @@ export default class PopupWithConfirm extends Popup {
             this._popupSubmitButton.setAttribute('disabled', '');
 
             this.onConfirm()
+            .then(() => {
+                this.close();
+            })
             .catch(reject => {
                 console.error(reject);
             })
             .finally(() => {
-                this.close();
                 this._popupSubmitButton.textContent = this._popupSubmitText;
                 this._popupSubmitButton.removeAttribute('disabled', '');
             });
