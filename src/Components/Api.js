@@ -74,13 +74,6 @@ export default class Api {
         });
     }
 
-    handleError(res) {
-        return Promise.reject(`Error: ${res.status}`)
-        .catch(err => {
-            console.error(err);
-        })
-    }
-
     _request(url, options) {
         return fetch(url, options).then(this._checkResponse);
     }

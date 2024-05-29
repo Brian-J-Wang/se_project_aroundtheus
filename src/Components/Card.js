@@ -36,15 +36,23 @@ class Card {
 
     _setDeleteHandler(cardCopy) {
         this._deleteButton.addEventListener("click", () => {
-
             this._handleImageRemove(this._data, this._deleteButton);
-            
         });
     }
 
     _setLikeHandler(cardCopy) {
         this._heartButton.addEventListener("click", () => {
-            this._handleImageLike(this._data, this._heartButton);
+            this._handleImageLike(this._data)
+            .then(() => {
+                if (this._data.isLiked) {
+                    this._heartButton.classList.add('places__heart_enabled');
+                } else {
+                    this._heartButton.classList.remove('places__heart_enabled');
+                }
+            })
+            .catch(rej => {
+                console.log(rej);
+            });
         });
     }
 }

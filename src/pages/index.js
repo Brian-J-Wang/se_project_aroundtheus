@@ -25,24 +25,16 @@ const renderCard = (cardData) => {
             });
         })
     }, 
-    (data, heartElement) => {
+    (data) => {
         if (!data.isLiked) {
-            API.addLike(data._id)
+            return API.addLike(data._id)
             .then(() => {
                 data.isLiked = true;
-                heartElement.classList.add('places__heart_enabled');
-            })
-            .catch(rej => {
-                console.log(rej);
             });
         } else {
-            API.removeLike(data._id)
+            return API.removeLike(data._id)
             .then(() => {
                 data.isLiked = false;
-                heartElement.classList.remove('places__heart_enabled');
-            })
-            .catch(rej => {
-                console.log(rej);
             });
         }
     }).createCard();
