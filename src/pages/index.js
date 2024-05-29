@@ -136,15 +136,22 @@ const avatarModalValidator = new FormValidator(avatarModalForm, config, editAvat
 avatarModalValidator.enableValidation();
 
 //Add modal functions
-const addForm = new PopupWithForm('.modal[id=addModal]', (inputs) => {
+const addForm = new PopupWithForm('.modal[id=addModal]', 
+(inputs) => {
     return API.createCard({name: inputs['title-input'], link: inputs['link-input']})
     .then(res => {
         const card = renderCard(res);
         cardSection.addItem(card);
     })
+    .then(() => {
+        addModalValidator.resetForm();
+    })
     .catch(rej => {
         console.log(rej);
     })
+},
+() => {
+    addModalValidator.resetForm();
 });
 addForm.setEventListeners();
 

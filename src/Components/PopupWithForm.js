@@ -1,12 +1,13 @@
 import Popup from "./Popup";
 
 export default class PopupWithForm extends Popup {
-    constructor(popupSelector, handleFormSubmit) {
+    constructor(popupSelector, handleFormSubmit, onFormClose = () => {}) {
         super(popupSelector);
         this._popupForm = this._popupElement.querySelector(".modal__form");
         this._popupSubmitButton = this._popupForm.querySelector('.modal__button');
         this._popupSubmitText = this._popupSubmitButton.textContent;
         this._handleFormSubmit = handleFormSubmit;
+        this._onFormClose = onFormClose;
         this._inputs = this._popupForm.querySelectorAll('input');
     }
 
@@ -28,14 +29,12 @@ export default class PopupWithForm extends Popup {
             this._popupSubmitButton.setAttribute('disabled', '');
             this._handleFormSubmit(this._getInputValues())
             .then(() => {
+                this._popupSubmitButton.textContent = this._popupSubmitText;
+                this._popupSubmitButton.removeAttribute('disabled', '');
                 this.close();
             })
             .catch(reject => {
                 console.error(reject);
-            })
-            .finally(() => {
-                this._popupSubmitButton.textContent = this._popupSubmitText;
-                this._popupSubmitButton.removeAttribute('disabled', '');
             });
         });
 
@@ -44,6 +43,7 @@ export default class PopupWithForm extends Popup {
 
     close() {
         this._popupForm.reset();
+        this._onFormClose();
         super.close();
     }
 }
