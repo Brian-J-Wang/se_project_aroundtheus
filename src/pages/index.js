@@ -5,52 +5,49 @@ import UserInfo from "../Components/UserInfo.js";
 import PopupWithForm from "../Components/PopupWithForm.js";
 import '../styles/style.css';
 import PopupWithImage from "../Components/PopupWithImage.js";
+import PopupWithConfirm from "../Components/PopupWithConfirm.js";
+import { config, API } from "../utils/constants.js";
 
-const config = {
-    formSelector: ".modal__form",
-    inputSelector: ".modal__input",
-    submitButtonSelector: ".modal__button",
-    inactiveButtonClass: "modal__button_disabled",
-    inputErrorClass: "modal__input_type_error",
-    errorClass: "modal__error_visible"
-};
-
-const initialCards = [
-    {
-        name: "New York",
-        link: "https://plus.unsplash.com/premium_photo-1681803606255-cb66b02f2b56?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-        name: "Chicago",
-        link: "https://images.unsplash.com/photo-1494522855154-9297ac14b55f?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-        name: "Golden Gate",
-        link: "https://images.unsplash.com/photo-1574054394439-06aef14b154e?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-        name: "Bald Mountains",
-        link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/bald-mountains.jpg",
-    },
-    {
-        name: "Latemar",
-        link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/latemar.jpg",
-    },
-    {
-        name: "Yosemite Valley",
-        link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/yosemite.jpg",
-    }
-]
-
-const renderCard = (card) => {
-    return new Card(card, cardTemplate, openImageModal).createCard();
-}
+const confirmPopup = new PopupWithConfirm('.modal[id=confirmModal]');
+confirmPopup.setEventListeners();
 
 const cardTemplate = document.querySelector('#card');
-const container = new Section({items: initialCards, renderer: renderCard }, ".places" );
-container.renderItems();
+const renderCard = (cardData) => {
+    return new Card(cardData, cardTemplate, openImageModal, 
+    (data, deleteButton) => {
+        confirmPopup.onPopupConfirm(() => {
+            return API.deleteCard(data._id)
+            .then(() => {
+                deleteButton.closest('.places__card').remove();
+            })
+            .catch((rej) => {
+                console.log(rej);
+            });
+        })
+    }, 
+    (data) => {
+        if (!data.isLiked) {
+            return API.addLike(data._id)
+            .then(() => {
+                data.isLiked = true;
+            });
+        } else {
+            return API.removeLike(data._id)
+            .then(() => {
+                data.isLiked = false;
+            });
+        }
+    }).createCard();
+}
 
-
+const cardSection = new Section(renderCard, ".places");
+API.getInitialCards()
+.then(cards => {
+    cardSection.renderItems(cards);
+})
+.catch(rej => {
+    console.log(rej);
+})
 
 //Image modal
 const imagePopup = new PopupWithImage('.modal[id=imageModal]');
@@ -67,55 +64,103 @@ imagePopup.setEventListeners();
 //User Information
 const nameSelector = '.profile__name';
 const descSelector = '.profile__desc';
-const profileElement = new UserInfo({name: nameSelector, desc: descSelector});
+const avatarSelector = '.profile__avatar-image';
+const userProfile = new UserInfo({name: nameSelector, desc: descSelector, avatar: avatarSelector});
+API.getUserInformation()
+    .then(userInfo => {
+        userProfile.setUserInfo({name: userInfo.name, desc: userInfo.about});
+        userProfile.setAvatarLink(userInfo.avatar);
+    })
+    .catch(rej => {
+        console.log(rej);
+    });
 
-//Edit modal
-const editForm = new PopupWithForm('.modal[id=editModal]',(inputs) => {
+//Edit user info modal
+const editInfoForm = new PopupWithForm('.modal[id=editModal]',(inputs) => {
     const userInfo = {
         name: inputs['name-input'],
-        desc: inputs['desc-input']
+        about: inputs['desc-input']
     }
 
-    profileElement.setUserInfo(userInfo);
+    return API.updateUserInformation({name: userInfo.name, about: userInfo.about})
+    .then((res) => {
+        userProfile.setUserInfo({name: res.name, desc: res.about});
+    })
+    .catch(rej => {
+        console.log(rej);
+    });
 })
-editForm.setEventListeners();
+editInfoForm.setEventListeners();
 
+const editButtonSelector = '.profile__edit';
 const inputName = editModal.querySelector('.modal__input[name=name]');
 const inputDesc = editModal.querySelector('.modal__input[name=desc]');
-const editButton = document.querySelector('.profile__edit');
+const editButton = document.querySelector(editButtonSelector);
 editButton.addEventListener('click', openProfileModal);
 function openProfileModal() {
-    const userInfo = profileElement.getUserInfo();
+    const userInfo = userProfile.getUserInfo();
 
     inputName.value = userInfo.name;
     inputDesc.value = userInfo.desc;
-    editForm.open();
+    editInfoForm.open();
 }
 
 const editModalForm = document.forms['editModalForm'];
-const editModalValidator = new FormValidator(editModalForm, config);
+const editModalValidator = new FormValidator(editModalForm, config, editButtonSelector);
 editModalValidator.enableValidation();
 
+//Edit user avatar modal
+const editAvatarSelector = '.profile__avatar-container';
+const avatarImage = document.querySelector('.profile__avatar-image');
+const editAvatarForm = new PopupWithForm('.modal[id=editAvatarModal]', (inputs) => {
+    const linkInput = inputs['avatar-input'];
 
+    return API.updateAvatar(linkInput)
+    .then(res => {
+        userProfile.setAvatarLink(res.avatar);
+    })
+    .catch(rej => {
+        console.log(rej);
+    })
+})
+editAvatarForm.setEventListeners();
+
+const avatarElement = document.querySelector(editAvatarSelector);
+avatarElement.addEventListener('click', openEditAvatarModal)
+function openEditAvatarModal() {
+    editAvatarForm.open();    
+}
+
+const avatarModalForm = document.forms['editAvatarModalForm']
+const avatarModalValidator = new FormValidator(avatarModalForm, config, editAvatarSelector);
+avatarModalValidator.enableValidation();
 
 //Add modal functions
-const addForm = new PopupWithForm('.modal[id=addModal]', (inputs) => {
-    const cardInfo = {
-        name: inputs['title-input'],
-        link: inputs['link-input']
-    }
-
-    const card = renderCard(cardInfo);
-    container.addItem(card);
+const addForm = new PopupWithForm('.modal[id=addModal]', 
+(inputs) => {
+    return API.createCard({name: inputs['title-input'], link: inputs['link-input']})
+    .then(res => {
+        const card = renderCard(res);
+        cardSection.addItem(card);
+    })
+    .then(() => {
+        addModalValidator.resetForm();
+    })
+    .catch(rej => {
+        console.log(rej);
+    })
+},
+() => {
+    addModalValidator.resetForm();
 });
 addForm.setEventListeners();
 
-
-const addButton = document.querySelector('.profile__add');
+const addButtonSelector = '.profile__add';
+const addButton = document.querySelector(addButtonSelector);
 addButton.addEventListener('click', () => {
     addForm.open();
 })
 
 const addModalForm = document.forms['addModalForm']
-const addModalValidator = new FormValidator(addModalForm, config);
+const addModalValidator = new FormValidator(addModalForm, config, addButtonSelector);
 addModalValidator.enableValidation();

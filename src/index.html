@@ -5,7 +5,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Around the US</title>
         <link rel="shortcut icon" href="favicon.ico">
-        <link rel="stylesheet" href="./styles/style.css">
     </head>
     <body class="page">
         <div class="content">
@@ -14,7 +13,10 @@
             </header>
             <main>
                 <section class="profile">
-                    <div class="profile__avatar"> </div>
+                    <div class="profile__avatar-container" id="profile-avatar">
+                        <img src="<%=require('./images/jacques-cousteau.jpg')%>" alt="profile" class="profile__avatar-image">
+                        <div class="profile__avatar-overlay"></div>
+                    </div>
                     <div class="profile__info">
                         <div class = "profile__name-container">
                             <h1 class="profile__name">Jacques Cousteau</h1>
@@ -41,7 +43,7 @@
                     <span class="name-input-error modal__error"></span>
                     <input id="desc-input" class="modal__input" type="text" name="desc" placeholder="Description" required minlength="2" maxlength="200" value=" ">
                     <span class="desc-input-error modal__error"></span>
-                    <button name="submit-button" class="modal__button" type="submit">Save</button>
+                    <button name="submit-button" class="modal__button" type="submit" disabled>Save</button>
                 </form>
             </div>
         </div>
@@ -55,7 +57,7 @@
                     <span class="title-input-error modal__error"></span>
                     <input id="link-input" class="modal__input" type="url" name="link" placeholder="Image link" required>
                     <span class="link-input-error modal__error"></span>
-                    <button name="submit-button" class="modal__button" type="submit">Create</button>
+                    <button name="submit-button" class="modal__button" type="submit" disabled>Create</button>
                 </form>
             </div>
         </div>
@@ -63,8 +65,30 @@
         <div class="modal modal_padding_wide" id="imageModal">
             <div class="modal__image-container">
                 <button class="modal__close modal__close-image"></button>
-                <img src="./images/jacques-cousteau.jpg" alt="image" class="modal__image">
+                <img src="<%=require('./images/jacques-cousteau.jpg')%>" alt="image" class="modal__image">
                 <p class="modal__caption"></p>
+            </div>
+        </div>
+
+        <div class="modal modal_padding_wide" id="confirmModal">
+            <div class="modal__container">
+                <button class="modal__close modal__close-image"></button>
+                <h2 class="modal__heading">Are you sure?</h2>
+                <form class="modal__form" name="confirmModalForm" novalidate>
+                    <button name="confirm-button" class="modal__button" type="submit">Confirm</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="modal modal_padding_narrow" id="editAvatarModal">
+            <div class="modal__container">
+                <button class="modal__close"></button>
+                <h2 class="modal__heading">Change profile picture</h2>
+                <form class="modal__form" name="editAvatarModalForm" novalidate>
+                    <input type="url" id="avatar-input" class="modal__input" name="link" placeholder="Avatar Link" required>
+                    <span class="avatar-input-error modal__error"></span>
+                    <button name="submit-button" class="modal__button" type="submit">Save</button>
+                </form>
             </div>
         </div>
 
@@ -81,9 +105,5 @@
                 </div>
             </div>
         </template>
-
-        <script type="module" src="./Components/Card.js"></script>
-        <script type="module" src="./Components/FormValidator.js"></script>
-        <script type="module" src="./pages/index.js"></script>
     </body>
 </html>

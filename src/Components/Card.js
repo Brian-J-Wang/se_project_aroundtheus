@@ -1,5 +1,5 @@
 class Card {
-    constructor(data, cardTemplate, handleImageClick) {
+    constructor(data, cardTemplate, handleImageClick, handleImageRemove, handleImageLike) {
         this._data = data;
         this._cardTemplate = cardTemplate;
         this._cardElement = this._cardTemplate.content.cloneNode(true);
@@ -7,6 +7,8 @@ class Card {
         this._deleteButton = this._cardElement.querySelector('.places__delete');
         this._heartButton = this._cardElement.querySelector('.places__heart');
         this._handleImageClick = handleImageClick;
+        this._handleImageRemove = handleImageRemove;
+        this._handleImageLike = handleImageLike;
     }
 
     createCard() {
@@ -14,6 +16,10 @@ class Card {
         this._cardImage.alt = this._data.name;
 
         this._cardElement.querySelector('.places__name').textContent = this._data.name;
+
+        if (this._data.isLiked) {
+            this._heartButton.classList.add('places__heart_enabled');
+        }
 
         this._setEventListeners();
 
@@ -30,13 +36,23 @@ class Card {
 
     _setDeleteHandler(cardCopy) {
         this._deleteButton.addEventListener("click", () => {
-            this._deleteButton.closest('.places__card').remove();
+            this._handleImageRemove(this._data, this._deleteButton);
         });
     }
 
     _setLikeHandler(cardCopy) {
         this._heartButton.addEventListener("click", () => {
-            this._heartButton.classList.toggle('places__heart_enabled');
+            this._handleImageLike(this._data)
+            .then(() => {
+                if (this._data.isLiked) {
+                    this._heartButton.classList.add('places__heart_enabled');
+                } else {
+                    this._heartButton.classList.remove('places__heart_enabled');
+                }
+            })
+            .catch(rej => {
+                console.log(rej);
+            });
         });
     }
 }

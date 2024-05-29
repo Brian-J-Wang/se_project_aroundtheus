@@ -1,79 +1,88 @@
-class Api {
+export default class Api {
     constructor(options) {
       this._url = options.baseUrl;
       this._headers = options.headers;
     }
 
     getUserInformation() {
-        return fetch(this._url.concat("users/me"), {
+        return this._request(this._url.concat("/users/me"),
+        {
             method: "GET",
             headers: this._headers
-        })
-        .then (res => {
-            if (res.ok) {
-                return res.json();
-            } else {
-                return this.handleError(res);
-            }
-        })
+        });
     }
 
-    updateProfileInformation(profileInfo) {
-        return fetch(this._url.concat("users/me"), {
+    updateUserInformation({name, about}) {
+        return this._request(this._url.concat("/users/me"),
+        {
             method: "PATCH",
             headers: this._headers,
-            body: json.stringify(profileInfo)
-        })
-        .then (res => {
-            if (res.ok) {
-                return res.json();
-            } else {
-                return this.handleError(res);
-            }
-        })
+            body: JSON.stringify({
+                name: name,
+                about: about
+            })
+        });
     }
 
     updateAvatar(avatarLink) {
-        return fetch(this._url.concat("users/me/avatar"), {
+        return this._request(this._url.concat("/users/me/avatar"), 
+        {
             method: "PATCH",
             headers: this._headers,
-            body: json.stringify(avatarLink)
-        })
+            body: JSON.stringify({
+                avatar: avatarLink
+            })
+        });
     }
 
     getInitialCards() {
-        return fetch(this._url.concat("cards"), {
-          method: "GET",
-          headers: this._headers
-        })
-        .then(res => {
-            if (res.ok) {
-                return res.json();
-            } else {
-                return this.handleError(res);
-            }
-        })
+        return this._request(this._url.concat("/cards"), {
+            method: "GET",
+            headers: this._headers
+        });
     }
 
-    createCard() {
-        return 
+    createCard({name, link}) {
+        return this._request(this._url.concat("/cards"), {
+            method: "POST",
+            headers: this._headers,
+            body: JSON.stringify({
+                name: name,
+                link: link
+            })
+        });
     }
 
-    handleError(res) {
-        return Promise.reject(`Error: ${res.status}`)
-        .catch(err => {
-            console.error(err);
-        })
+    deleteCard(cardId) {
+        return this._request(this._url.concat(`/cards/${cardId}`), {
+            method: "DELETE",
+            headers: this._headers
+        });
     }
-  
-    // other methods for working with the API
-  }
-  
-const api = new Api({
-    baseUrl: "https://around-api.en.tripleten-services.com/v1",
-    headers: {
-      authorization: "e8616e37-d8e6-434f-880a-27a697920338",
-      "Content-Type": "application/json"
-    }
-});
 
+    addLike(cardId) {
+        return this._request(this._url.concat(`/cards/${cardId}/likes`), {
+            method: "PUT",
+            headers: this._headers
+        });
+    }
+
+    removeLike(cardId) {
+        return this._request(this._url.concat(`/cards/${cardId}/likes`), {
+            method: "DELETE",
+            headers: this._headers
+        });
+    }
+
+    _request(url, options) {
+        return fetch(url, options).then(this._checkResponse);
+    }
+
+    _checkResponse(res) {
+        if (res.ok) {
+            return res.json();
+        } else {
+            return Promise.reject(`Error: ${res.status}`);
+        }
+    }
+}
